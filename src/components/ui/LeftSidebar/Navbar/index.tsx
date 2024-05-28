@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -34,7 +34,11 @@ const Navbar = () => {
 
 			<div className={`w-full h-auto space-y-2`}>
 				<button
-					className={`w-full h-auto p-3 py-2 font-rubik text-base text-foreground-700 ${pathName==='/'?'bg-secondary-500 text-secondary-50':'hover:bg-secondary-100/50'} transition-all duration-300 rounded-md flex justify-start items-center gap-2`}
+					className={`w-full h-auto p-3 py-2 font-rubik text-base text-foreground-700 ${
+						pathName === "/"
+							? "bg-secondary-500 text-secondary-50"
+							: "hover:bg-secondary-100/50"
+					} transition-all duration-300 rounded-md flex justify-start items-center gap-2`}
 				>
 					<GoHome className={`w-5 h-5`} />
 					Home
@@ -53,7 +57,7 @@ const Navbar = () => {
 				</button>
 
 				<button
-					className={`w-full h-auto p-3 py-2 font-rubik text-base text-foreground-700 hover:bg-secondary-100/50 transition-all duration-300 rounded-md flex justify-start items-center gap-2`}
+					className={`w-full h-auto p-3 py-2 font-rubik text-base text-foreground-700 hover:bg-red-200/50 transition-all duration-300 rounded-md flex justify-start items-center gap-2`}
 				>
 					<GoHome className={`w-5 h-5`} />
 					Trash
