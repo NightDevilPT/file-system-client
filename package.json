@@ -13,6 +13,7 @@
     "@nextui-org/button": "^2.0.31",
     "@nextui-org/divider": "^2.0.27",
     "@nextui-org/image": "^2.0.27",
+    "@nextui-org/pagination": "^2.0.31",
     "@nextui-org/react": "^2.3.6",
     "@nextui-org/system": "^2.1.2",
     "@nextui-org/theme": "^2.2.3",
