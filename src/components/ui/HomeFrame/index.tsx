@@ -43,7 +43,7 @@ const HomeFrame = () => {
 		<div className={`w-full h-auto p-5 space-y-5`}>
 			<SearchInput />
 			<FileFolderLayout title={`Folders`} showLayout data={FormData} />
-			<FileFolderLayout title={`Files`} showLayout />
+			<FileFolderLayout title={`Files`} showLayout loading={true} />
 		</div>
 	);
 };

@@ -10,12 +10,14 @@ import { BsGridFill } from "react-icons/bs";
 import emptyFolder from "../../../assets/empty-folder.png";
 import { GridLayoutFrame } from "./GridCardLayout";
 import { TableLayoutFrame } from "./TableCardLayout";
-import PaginationFrame from "@/common/Pagination";
+import FileFolderLoader from "@/common/FileFolderLoader";
+import {Pagination, PaginationItemType} from "@nextui-org/react";
 
 export interface FileFolderLayoutIprops {
 	title: string;
 	showLayout: boolean;
 	data?: any;
+	loading?:boolean;
 }
 
 export enum LayoutEnum {
@@ -27,6 +29,7 @@ const FileFolderLayout = ({
 	title,
 	data,
 	showLayout,
+	loading
 }: FileFolderLayoutIprops) => {
 	const [isTableView, setTableView] = useState<LayoutEnum>(LayoutEnum.TABLE);
 	const [initialPage, setInitialPage] = useState<number>(1);
@@ -41,7 +44,7 @@ const FileFolderLayout = ({
 
 	return (
 		<div
-			className={`w-full h-auto space-y-2 bg-slate-100 px-5 py-3 shadow-lg rounded-lg`}
+			className={`w-full h-auto space-y-2 bg-slate-100 dark:bg-slate-900 px-5 py-3 shadow-lg rounded-lg`}
 		>
 			<div className={`w-full h-auto flex justify-between items-center`}>
 				<h1 className={`font-rubik text-lg font-[500]`}>{title}</h1>
@@ -81,18 +84,23 @@ const FileFolderLayout = ({
 			</div>
 			<Divider className={`w-full h-[2px]`} />
 			<React.Fragment>
-				{!data && <NoDataLayout title={title} />}
-				{data && isTableView === LayoutEnum.GRID && (
+				{loading&&<FileFolderLoader />}
+				{!data && !loading && <NoDataLayout title={title} />}
+				{data && !loading && isTableView === LayoutEnum.GRID && (
 					<GridLayoutFrame data={data} />
 				)}
-				{data && isTableView === LayoutEnum.TABLE && (
+				{data && !loading && isTableView === LayoutEnum.TABLE && (
 					<TableLayoutFrame data={data} />
 				)}
-				{data && (
+				{data && !loading && (
 					<div
 						className={`w-full h-auto flex justify-end items-center !mt-8`}
 					>
-						<PaginationFrame totalPage={20} initialPage={1} setInitialPage={setInitialPage} />
+						<Pagination showControls total={20} initialPage={initialPage} variant="light" color={`primary`} classNames={{
+							item:['hover:dark:!bg-slate-800 hover:!bg-slate-200'],
+							next:['hover:dark:!bg-slate-800 hover:!bg-slate-200'],
+							prev:['hover:dark:!bg-slate-800 hover:!bg-slate-200']
+						}} />
 					</div>
 				)}
 			</React.Fragment>

@@ -1,14 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { GoHome } from "react-icons/go";
 import { FaRegStar } from "react-icons/fa";
 import { BsFolder2Open } from "react-icons/bs";
 import { usePathname } from "next/navigation";
+import { PiSunBold } from "react-icons/pi";
+import { TbMoonStars } from "react-icons/tb";
 
 const Navbar = () => {
 	const pathName = usePathname();
+	const [darkTheme, setDarkTheme] = useState<boolean>(true);
+
+	const changeDarkTheme = () => {
+		console.log("called");
+		document.documentElement.setAttribute(
+			"class",
+			darkTheme ? "dark" : "light"
+		);
+		setDarkTheme(!darkTheme);
+	};
+
+	useEffect(()=>{changeDarkTheme()},[])
 
 	return (
 		<div className={`w-full h-auto mt-5 space-y-8`}>
@@ -54,6 +68,17 @@ const Navbar = () => {
 				>
 					<FaRegStar className={`w-5 h-5`} />
 					Favorites
+				</button>
+				<button
+					className={`w-full h-auto p-3 py-2 font-rubik text-base text-foreground-700 hover:bg-secondary-100/50 transition-all duration-300 rounded-md flex justify-start items-center gap-2`}
+					onClick={changeDarkTheme}
+				>
+					{darkTheme ? (
+						<TbMoonStars className={`w-5 h-5`} />
+					) : (
+						<PiSunBold className={`w-5 h-5`} />
+					)}
+					Appearance
 				</button>
 
 				<button

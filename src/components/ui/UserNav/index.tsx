@@ -16,10 +16,7 @@ const UserNav = ({ src, title, subtitle }: UsernavIProps) => {
 			<div
 				className={`w-auto h-auto flex justify-start items-center gap-3`}
 			>
-				<Avatar
-					src={src}
-					icon={<AvatarIcon />}
-				/>
+				<Avatar src={src} icon={<AvatarIcon />} />
 				<div
 					className={`w-auto flex justify-center items-start flex-col relative`}
 				>
@@ -37,7 +34,9 @@ const UserNav = ({ src, title, subtitle }: UsernavIProps) => {
 					)}
 				</div>
 			</div>
-			<button className={`w-auto h-auto p-2 rounded bg-red-100 hover:bg-red-500 hover:text-foreground-100 transition-all duration-300`}>
+			<button
+				className={`w-auto h-auto p-2 rounded hover:bg-red-500 text-foreground-900 transition-all duration-300`}
+			>
 				<FiLogOut className={`w-5 h-5`} />
 			</button>
 		</div>
