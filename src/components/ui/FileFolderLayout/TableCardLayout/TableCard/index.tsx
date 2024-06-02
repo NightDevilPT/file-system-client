@@ -1,8 +1,9 @@
 import React from "react";
 import { Image } from "@nextui-org/image";
-import { BsThreeDotsVertical } from "react-icons/bs";
 
+import file from "../../../../../assets/file.png";
 import folder from "../../../../../assets/folder.png";
+
 import { formatDate } from "@/utils/formatDate";
 import FileFolderDropDownMenu from "../../FileFolderDropDown";
 
@@ -14,20 +15,18 @@ export interface GridCardIProps {
 
 const TableCard = ({ name, type, createdAt }: GridCardIProps) => {
 	return (
-		<div className={`w-full h-auto grid grid-cols-4`}>
-			<div className={`flex justify-start items-center gap-2`}>
-				{type === "Folder" && (
-					<div
-						className={`w-auto min-h-8 h-12 flex justify-center items-center`}
-					>
-						{" "}
-						<Image
-							src={folder.src}
-							className={`w-auto h-8`}
-							alt="Table Image"
-						/>
-					</div>
-				)}
+		<div className={`w-full h-auto grid grid-cols-8 transition-all duration-300 cursor-pointer hover:bg-foreground-200/50 hover:dark:bg-slate-800 px-4`}>
+			<div className={`flex justify-start items-center gap-3 col-span-3`}>
+				<div
+					className={`w-auto min-h-8 h-12 flex justify-center items-center`}
+				>
+					<Image
+						src={type==="Folder"?folder.src:file.src}
+						className={`w-auto h-8`}
+						alt="Table Image"
+					/>
+				</div>
+
 				<p
 					className={`w-auto h-auto text-sm font-rubik text-foreground-700`}
 				>
@@ -35,12 +34,12 @@ const TableCard = ({ name, type, createdAt }: GridCardIProps) => {
 				</p>
 			</div>
 			<span
-				className={` text-xs text-foreground-500 flex justify-start items-center`}
+				className={` text-xs text-foreground-500 flex justify-start items-center col-span-2`}
 			>
-				{formatDate(createdAt)}
+				{type}
 			</span>
 			<span
-				className={` text-xs text-foreground-500 flex justify-start items-center`}
+				className={` text-xs text-foreground-500 flex justify-start items-center col-span-2`}
 			>
 				{formatDate(createdAt)}
 			</span>

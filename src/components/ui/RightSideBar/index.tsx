@@ -11,7 +11,7 @@ const RightSideBar = () => {
 			<UserNav
 				src={`https://i.pravatar.cc/150?u=a042581f4e29026024d`}
 				title={`Pawan Kumar`}
-				subtitle={`12345`}
+				subtitle={`nightdevilpt@gmail.com`}
 			/>
 			<Divider className={`w-full h-[2px] my-1`} />
 			<ProgressOfBucket />

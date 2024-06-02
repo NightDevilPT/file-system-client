@@ -23,32 +23,32 @@ const ProgressOfBucket: React.FC = () => {
 			icon: <LuImage className={`min-w-5 min-h-5`} />,
 			text: "Images",
 			size: 3,
-			bg: "bg-blue-300",
-			color: "text-blue-700",
+			bg: "bg-blue-400",
+			color: "text-blue-800",
 			totalFile: 5,
 		},
 		document: {
 			icon: <HiOutlineDocumentText className={`min-w-5 min-h-5`} />,
 			text: "Documents",
 			size: 4,
-			bg: "bg-green-300",
-			color: "text-green-700",
+			bg: "bg-green-400",
+			color: "text-green-800",
 			totalFile: 5,
 		},
 		videos: {
 			icon: <LuVideo className={`min-w-5 min-h-5`} />,
 			text: "Videos",
 			size: 3,
-			bg: "bg-purple-300",
-			color: "text-purple-700",
+			bg: "bg-purple-400",
+			color: "text-purple-800",
 			totalFile: 5,
 		},
 		other: {
 			icon: <RiErrorWarningLine className={`min-w-5 min-h-5`} />,
 			text: "Other",
 			size: 2,
-			bg: "bg-red-300",
-			color: "text-red-700",
+			bg: "bg-red-400",
+			color: "text-red-800",
 			totalFile: 5,
 		},
 	};
@@ -61,7 +61,7 @@ const ProgressOfBucket: React.FC = () => {
 	return (
 		<div className={`w-full h-auto p-4`}>
 			<h2 className="text-lg font-bold mb-1">Storage Usage</h2>
-			<div className="w-full mb-4 bg-gray-200 rounded-full overflow-hidden h-3 relative">
+			<div className="w-full mb-4 bg-foreground-600 rounded-full overflow-hidden h-3 relative">
 				{Object.keys(storageType).map((key) => {
 					const storageKey = key as StorageKey;
 					const { size, bg } = storageType[storageKey];

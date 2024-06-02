@@ -8,7 +8,7 @@ export default function SearchInput() {
       <Input
         isClearable
         radius="lg"
-        className={`flex-1 h-full bg-slate-100`}
+        className={`flex-1 h-full`}
         placeholder="Type to search..."
         startContent={
           <FiSearch className="text-black/50 mb-0.5 pointer-events-none flex-shrink-0" />

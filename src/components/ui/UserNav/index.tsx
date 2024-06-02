@@ -2,6 +2,8 @@ import React from "react";
 import { FiLogOut } from "react-icons/fi";
 import { Avatar, AvatarIcon } from "@nextui-org/react";
 
+import avtar from '../../../assets/avtar.jpeg';
+
 export interface UsernavIProps {
 	src: string;
 	title: string;
@@ -16,7 +18,7 @@ const UserNav = ({ src, title, subtitle }: UsernavIProps) => {
 			<div
 				className={`w-auto h-auto flex justify-start items-center gap-3`}
 			>
-				<Avatar src={src} icon={<AvatarIcon />} />
+				<Avatar src={avtar.src} icon={<AvatarIcon />} />
 				<div
 					className={`w-auto flex justify-center items-start flex-col relative`}
 				>
