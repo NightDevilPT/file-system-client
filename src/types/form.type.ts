@@ -12,7 +12,15 @@ export interface FSInputInterface{
 	placeholder?:string;
 	label:string;
 	icon?:string;
-	formVarient?:InputVariantEnum
+	formVarient?:InputVariantEnum;
+	disabled?:boolean;
+	onChange?:any
+}
+
+export interface FSFileInputInterface{
+	title:string;
+	subtitle?:string;
+	onChange?:any;
 }
 
 // export enum ButtonVariantEnum {

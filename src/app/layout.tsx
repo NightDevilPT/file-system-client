@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" className="dark">
-			<body className={`bg-sky-100 dark:bg-gray-950`}>
+			<body className={`bg-sky-100 dark:bg-black h-[100vh]`}>
 				<CombineProvider>{children}</CombineProvider>
 			</body>
 		</html>

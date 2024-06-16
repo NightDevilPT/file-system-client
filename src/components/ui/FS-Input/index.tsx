@@ -15,6 +15,8 @@ const FSInput = ({
 	name,
 	icon,
 	formVarient,
+	disabled,
+	onChange
 }: FSInputInterface) => {
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isVisible, setIsVisible] = React.useState(false);
@@ -24,6 +26,11 @@ const FSInput = ({
 		setIsVisible(!isVisible);
 		setInputType(isVisible ? "text" : "password");
 	};
+
+	const handleOnChange=(event:React.ChangeEvent<HTMLInputElement>)=>{
+		setInputValue(event.target.value);
+		if(onChange) onChange(name,event.target.value)
+	}
 
 	return (
 		<Input
@@ -38,6 +45,7 @@ const FSInput = ({
 					</div>
 				)
 			}
+			disabled={disabled}
 			endContent={
 				type === "password" && (
 					<button
@@ -54,6 +62,7 @@ const FSInput = ({
 				)
 			}
 			type={inputType}
+			onChange={handleOnChange}
 			className="min-w-40 w-full !text-foreground-900"
 		/>
 	);
