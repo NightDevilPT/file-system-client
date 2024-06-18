@@ -16,6 +16,11 @@ import { MdOutlineNoteAdd } from "react-icons/md";
 import { CgRename } from "react-icons/cg";
 import { CiFileOn } from "react-icons/ci";
 
+import { IoVideocamOutline } from "react-icons/io5";
+import { MdOutlineAudiotrack } from "react-icons/md";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { IoImageOutline } from "react-icons/io5";
+
 const icons = (type: string) => {
 	const icon:any = {
 		mail: <IoMailOutline />,
@@ -33,7 +38,11 @@ const icons = (type: string) => {
 		addFolder: <PiFolderSimplePlus className={`min-w-5 min-h-5`} />,
 		addFile: <MdOutlineNoteAdd className={`min-w-5 min-h-5`} />,
 		name:<CgRename className={`min-w-5 min-h-5`} />,
-		file:<CiFileOn className={`min-w-5 min-h-5`} />
+		file:<CiFileOn className={`min-w-5 min-h-5`} />,
+		video:<IoVideocamOutline className={`min-w-5 w-full h-full min-h-5`} />,
+		audio:<MdOutlineAudiotrack className={`min-w-5 w-full h-full min-h-5`} />,
+		document:<IoDocumentTextOutline className={`min-w-5 w-full h-full min-h-5`} />,
+		image:<IoImageOutline className={`min-w-5 w-full h-full min-h-5`} />
 	};
 	return icon[type];
 };
