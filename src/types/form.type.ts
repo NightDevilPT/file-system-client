@@ -15,6 +15,7 @@ export interface FSInputInterface{
 	formVarient?:InputVariantEnum;
 	disabled?:boolean;
 	onChange?:any
+	required?:boolean;
 }
 
 export interface FSFileInputInterface{

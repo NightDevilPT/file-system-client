@@ -16,7 +16,8 @@ const FSInput = ({
 	icon,
 	formVarient,
 	disabled,
-	onChange
+	onChange,
+	required
 }: FSInputInterface) => {
 	const [inputValue, setInputValue] = useState<string>("");
 	const [isVisible, setIsVisible] = React.useState(false);
@@ -40,8 +41,9 @@ const FSInput = ({
 			placeholder={placeholder}
 			startContent={
 				icon && (
-					<div className="text-xl text-default-400 pointer-events-none">
+					<div className="text-xl text-default-400 pointer-events-none relative mr-3">
 						{icons(icon)}
+						<span className={` absolute -right-2 -top-2 text-red-500 w-3 h-3`}>*</span>
 					</div>
 				)
 			}
