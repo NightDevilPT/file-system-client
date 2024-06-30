@@ -15,11 +15,20 @@ import { PiFolderSimplePlus } from "react-icons/pi";
 import { MdOutlineNoteAdd } from "react-icons/md";
 import { CgRename } from "react-icons/cg";
 import { CiFileOn } from "react-icons/ci";
+import { MdOutlineEditNote } from "react-icons/md";
 
 import { IoVideocamOutline } from "react-icons/io5";
 import { MdOutlineAudiotrack } from "react-icons/md";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { IoImageOutline } from "react-icons/io5";
+import { RiErrorWarningLine } from "react-icons/ri";
+import { FiSearch } from "react-icons/fi";
+
+import { LuSunMedium } from "react-icons/lu";
+import { AiFillMoon } from "react-icons/ai";
+
+import { CiGrid41 } from "react-icons/ci";
+import { CiViewTable } from "react-icons/ci";
 
 const icons = (type: string) => {
 	const icon:any = {
@@ -42,7 +51,17 @@ const icons = (type: string) => {
 		video:<IoVideocamOutline className={`min-w-5 w-full h-full min-h-5`} />,
 		audio:<MdOutlineAudiotrack className={`min-w-5 w-full h-full min-h-5`} />,
 		document:<IoDocumentTextOutline className={`min-w-5 w-full h-full min-h-5`} />,
-		image:<IoImageOutline className={`min-w-5 w-full h-full min-h-5`} />
+		image:<IoImageOutline className={`min-w-5 w-full h-full min-h-5`} />,
+		others:<RiErrorWarningLine className={`min-w-5 w-full h-full min-h-5`} />,
+		search:<FiSearch className={`min-w-5 w-full h-full min-h-5`} />,
+		
+		light:<LuSunMedium className={`min-w-5 w-full h-full min-h-5`} />,
+		dark:<AiFillMoon className={`min-w-5 w-full h-full min-h-5`} />,
+
+		grid:<CiGrid41 className={`min-w-5 w-full h-full min-h-5`} />,
+		table:<CiViewTable className={`min-w-5 w-full h-full min-h-5`} />,
+
+		edit:<MdOutlineEditNote className={`min-w-5 min-h-5`} />
 	};
 	return icon[type];
 };

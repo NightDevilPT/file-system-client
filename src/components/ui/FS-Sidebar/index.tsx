@@ -8,6 +8,7 @@ import icons from "@/utils/icons";
 import FSUsernav from "../FS-Usernav";
 import FSCreateFolderModal from "./FS-CreateFolder-Modal";
 import FSCreateFileModal from "./FS-CreateFile-Modal";
+import FSStorageInformation from "../FS-Storage";
 
 export enum ActiveButtonEnum {
 	createFolder = "Create Folder",
@@ -24,9 +25,11 @@ const FSSidebar = () => {
 	);
 	return (
 		<div
-			className={` w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
+			className={`w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
 		>
-			<div className={`w-full h-auto pt-5 pb-2 flex justify-start items-center`}>
+			<div
+				className={`w-full h-auto pt-5 pb-2 flex justify-start items-center`}
+			>
 				<FSLogoFrame />
 			</div>
 			<Divider className="mb-5" />
@@ -74,7 +77,7 @@ const FSSidebar = () => {
 				</Button>
 			</div>
 			<div className={`w-full absolute bottom-5 left-0 px-5`}>
-				<FSUsernav />
+				<FSStorageInformation />
 			</div>
 		</div>
 	);

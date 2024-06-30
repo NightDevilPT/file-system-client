@@ -1,4 +1,5 @@
 import "./globals.css";
+import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from "next";
 import { CombineProvider } from "@/Providers/CombineProviders";
 
@@ -13,7 +14,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className="dark">
+		<html lang="en" className="light">
 			<body className={`bg-sky-100 dark:bg-black h-[100vh]`}>
 				<CombineProvider>{children}</CombineProvider>
 			</body>
