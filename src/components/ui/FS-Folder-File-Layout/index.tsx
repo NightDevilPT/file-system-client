@@ -1,5 +1,6 @@
 "use client";
 
+import generateDummyData from "@/utils/get-dummy";
 import icons from "@/utils/icons";
 import { Divider } from "@nextui-org/divider";
 import React, { useState } from "react";
@@ -25,6 +26,7 @@ const FSFolderFileLayout = ({
 	const setTableView = () => {
 		setView(FSViewEnum.TABLE);
 	};
+	const entity = generateDummyData(10);
 	return (
 		<div
 			className={`w-full h-auto flex justify-start items-start flex-col gap-2 bg-background dark:bg-default-50 shadow-xl rounded-md px-4 py-2`}
@@ -37,7 +39,7 @@ const FSFolderFileLayout = ({
 					}`}
 				>
 					<button
-						className={`w-5 relative z-10 h-5 bg-transparent ${
+						className={`w-6 relative z-10 h-6 bg-transparent ${
 							view === FSViewEnum.GRID && "text-white"
 						}`}
 						onClick={setGridView}
@@ -45,7 +47,7 @@ const FSFolderFileLayout = ({
 						{icons("grid")}
 					</button>
 					<button
-						className={`w-5 relative z-10 h-5 bg-transparent ${
+						className={`w-6 relative z-10 h-6	 bg-transparent ${
 							view === FSViewEnum.TABLE && "text-white"
 						}`}
 						onClick={setTableView}
@@ -53,11 +55,14 @@ const FSFolderFileLayout = ({
 						{icons("table")}
 					</button>
 					<div
-						className={`absolute z-0 transition-all duration-300 ${view===FSViewEnum.GRID?'left-1':'left-8'} top-1 w-7 h-6 rounded bg-primary`}
+						className={`absolute z-0 transition-all duration-300 ${
+							view === FSViewEnum.GRID ? "left-1" : "left-9"
+						} top-1 w-8 h-6 rounded bg-primary`}
 					></div>
 				</div>
 			</div>
 			<Divider />
+			<div className={`w-full h-auto`}></div>
 		</div>
 	);
 };

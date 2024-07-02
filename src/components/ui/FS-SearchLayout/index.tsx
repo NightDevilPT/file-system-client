@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Divider } from "@nextui-org/react";
+import { Divider, Select, SelectItem } from "@nextui-org/react";
 
 import icons from "@/utils/icons";
 import FSUsernav from "../FS-Usernav";
@@ -23,21 +23,36 @@ const FSSearchLayout = () => {
 				className={`w-full h-full py-3 flex justify-between items-center gap-2 pl-5`}
 			>
 				<div
-					className={`w-auto h-full flex justify-start items-center gap-3`}
+					className={`w-auto h-full flex justify-start items-center gap-5`}
 				>
 					<div
-						className={`w-auto h-full flex justify-center items-center gap-2 text-sm`}
+						className={` w-96 h-full flex justify-center items-center gap-2 text-sm`}
 					>
 						<input
-							className={`min-w-24 relative top-[2px] bg-transparent w-full h-auto outline-none pb-1 border-0 border-b-2 border-divider`}
+							className={`relative bg-transparent w-full h-auto outline-none py-[.5rem] border-0 border-b-2 border-divider`}
 							placeholder={`Type here to search`}
 						/>
 						<button
-							className={`w-auto h-auto py-1 px-3 rounded-md bg-primary text-sm text-primary-100 flex justify-center items-center gap-2`}
+							className={`w-auto h-auto py-2 px-4 rounded-md bg-primary text-sm text-primary-100 flex justify-center items-center gap-2`}
 						>
 							Search
 							{icons("search")}
 						</button>
+					</div>
+					<div className={` w-44 h-full`}>
+						<Select
+							placeholder="Sort by"
+							color="primary"
+							variant="faded"
+							className="w-full h-auto max-h-max"
+							disableSelectorIconRotation
+						>
+							{sortBy.map((animal) => (
+								<SelectItem key={animal.key} color="primary">
+									{animal.label}
+								</SelectItem>
+							))}
+						</Select>
 					</div>
 				</div>
 				<FSThemeButton />
