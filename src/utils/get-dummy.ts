@@ -1,47 +1,54 @@
-function generateDummyData(count: number) {
-	const folderEnumValues = ["FOLDER", "FILE"];
-	const privateEnumValues = ["PUBLIC", "PRIVATE"];
-	const fileTypeEnumValues = ["IMAGE", "DOCUMENT", "VIDEO", "OTHER"];
+import { FileFolder, File, Folder, FileTypeEnum, PrivateEnum, Breadcrumb } from "@/interface/interface";
 
-	const getRandomEnumValue = (enumValues: any) =>
-		enumValues[Math.floor(Math.random() * enumValues.length)];
+function generateDummyData(count: number): FileFolder[] {
+    const privateEnumValues: PrivateEnum[] = ["PUBLIC", "PRIVATE"];
+    const fileTypeEnumValues: FileTypeEnum[] = [
+        FileTypeEnum.IMAGE, 
+        FileTypeEnum.DOCUMENT, 
+        FileTypeEnum.VIDEO, 
+        FileTypeEnum.OTHER
+    ];
 
-	const generateFolders = (count: number) =>
-		Array.from({ length: count }, (_, i) => ({
-			id: `folder-${i + 1}`,
-			name: `Folder ${i + 1}`,
-			type: folderEnumValues[1],
-			isTrash: Math.random() < 0.5,
-			isAccessable: getRandomEnumValue(privateEnumValues),
-			userIds: [`user${i + 1}`],
-			shareToken: null,
-			breadcrumb: [{ name: "Root Folder", id: "root" }],
-			createdBy: `user${i + 1}`,
-			resourceId: null,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		}));
+    const getRandomEnumValue = <T>(enumValues: T[]): T =>
+        enumValues[Math.floor(Math.random() * enumValues.length)];
 
-	const generateFiles = (count: number) =>
-		Array.from({ length: count }, (_, i) => ({
-			id: `file-${i + 1}`,
-			name: `File ${i + 1}`,
-			size: Math.floor(Math.random() * 10000),
-			data: `data for file${i + 1}`,
-			fileType: folderEnumValues[1],
-			type: "FILE",
-			isTrash: Math.random() < 0.5,
-			isAccessable: getRandomEnumValue(privateEnumValues),
-			shareToken: null,
-			userIds: [`user${i + 1}`],
-			resourceId: `resource${i + 1}`,
-			breadcrumb: [{ name: "Root Folder", id: "root" }],
-			createdBy: `user${i + 1}`,
-			createdAt: new Date(),
-			updatedAt: new Date(),
-		}));
+    const generateFolders = (count: number): Folder[] =>
+        Array.from({ length: count }, (_, i) => ({
+            id: `folder-${i + 1}`,
+            name: `Folder ${i + 1}`,
+            type: "FOLDER",
+            isTrash: Math.random() < 0.5,
+            isAccessable: getRandomEnumValue(privateEnumValues),
+            userIds: [`user${i + 1}`],
+            shareToken: null,
+            breadcrumb: [{ name: "Root Folder", id: "root" }] as Breadcrumb[],
+            createdBy: `user${i + 1}`,
+            resourceId: null,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        }));
 
-	return [...generateFolders(count), ...generateFiles(count)];
+    const generateFiles = (count: number): File[] =>
+        Array.from({ length: count }, (_, i) => ({
+            id: `file-${i + 1}`,
+            name: `File ${i + 1}`,
+            size: Math.floor(Math.random() * 10000),
+            data: `data for file${i + 1}`,
+            fileType: getRandomEnumValue(fileTypeEnumValues),
+            type: "FILE",
+            isTrash: Math.random() < 0.5,
+            isAccessable: getRandomEnumValue(privateEnumValues),
+            shareToken: null,
+            userIds: [`user${i + 1}`],
+            resourceId: `resource${i + 1}`,
+            breadcrumb: [{ name: "Root Folder", id: "root" }] as Breadcrumb[],
+            createdBy: `user${i + 1}`,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+        }));
+
+    const halfCount = Math.floor(count / 2);
+    return [...generateFolders(halfCount), ...generateFiles(halfCount)];
 }
 
 export default generateDummyData;

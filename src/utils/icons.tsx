@@ -30,8 +30,15 @@ import { AiFillMoon } from "react-icons/ai";
 import { CiGrid41 } from "react-icons/ci";
 import { CiViewTable } from "react-icons/ci";
 
+import { GoBookmark } from "react-icons/go";
+import { GoBookmarkFill } from "react-icons/go";
+
+import { BsThreeDotsVertical } from "react-icons/bs";
+
+import { IoTrashOutline } from "react-icons/io5";
+
 const icons = (type: string) => {
-	const icon:any = {
+	const icon: any = {
 		mail: <IoMailOutline />,
 		password: <TbPasswordUser className={`min-w-5 min-h-5`} />,
 		eyeOpen: <VscEye className={`min-w-5 min-h-5`} />,
@@ -46,22 +53,39 @@ const icons = (type: string) => {
 		logout: <TbLogout className={`min-w-5 min-h-5`} />,
 		addFolder: <PiFolderSimplePlus className={`min-w-5 min-h-5`} />,
 		addFile: <MdOutlineNoteAdd className={`min-w-5 min-h-5`} />,
-		name:<CgRename className={`min-w-5 min-h-5`} />,
-		file:<CiFileOn className={`min-w-5 min-h-5`} />,
-		video:<IoVideocamOutline className={`min-w-5 w-full h-full min-h-5`} />,
-		audio:<MdOutlineAudiotrack className={`min-w-5 w-full h-full min-h-5`} />,
-		document:<IoDocumentTextOutline className={`min-w-5 w-full h-full min-h-5`} />,
-		image:<IoImageOutline className={`min-w-5 w-full h-full min-h-5`} />,
-		others:<RiErrorWarningLine className={`min-w-5 w-full h-full min-h-5`} />,
-		search:<FiSearch className={`min-w-5 w-full h-full min-h-5`} />,
-		
-		light:<LuSunMedium className={`min-w-5 w-full h-full min-h-5`} />,
-		dark:<AiFillMoon className={`min-w-5 w-full h-full min-h-5`} />,
+		name: <CgRename className={`min-w-5 min-h-5`} />,
+		file: <CiFileOn className={`min-w-5 min-h-5`} />,
+		video: (
+			<IoVideocamOutline className={`min-w-5 w-full h-full min-h-5`} />
+		),
+		audio: (
+			<MdOutlineAudiotrack className={`min-w-5 w-full h-full min-h-5`} />
+		),
+		document: (
+			<IoDocumentTextOutline
+				className={`min-w-5 w-full h-full min-h-5`}
+			/>
+		),
+		image: <IoImageOutline className={`min-w-5 w-full h-full min-h-5`} />,
+		others: (
+			<RiErrorWarningLine className={`min-w-5 w-full h-full min-h-5`} />
+		),
+		search: <FiSearch className={`min-w-5 w-full h-full min-h-5`} />,
 
-		grid:<CiGrid41 className={`min-w-5 w-full h-full min-h-5`} />,
-		table:<CiViewTable className={`min-w-5 w-full h-full min-h-5`} />,
+		light: <LuSunMedium className={`min-w-5 w-full h-full min-h-5`} />,
+		dark: <AiFillMoon className={`min-w-5 w-full h-full min-h-5`} />,
 
-		edit:<MdOutlineEditNote className={`min-w-5 min-h-5`} />
+		grid: <CiGrid41 className={`min-w-5 w-full h-full min-h-5`} />,
+		table: <CiViewTable className={`min-w-5 w-full h-full min-h-5`} />,
+
+		edit: <MdOutlineEditNote className={`min-w-5 min-h-5`} />,
+
+		bookmark: <GoBookmark className={`min-w-5 min-h-5`} />,
+		savedBookmark: <GoBookmarkFill className={`min-w-5 min-h-5`} />,
+
+		threeDot:<BsThreeDotsVertical className={`min-w-4 min-h-4`} />,
+
+		delete:<IoTrashOutline className={`min-w-5 min-h-5`} />,
 	};
 	return icon[type];
 };

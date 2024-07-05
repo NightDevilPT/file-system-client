@@ -33,7 +33,7 @@ const FSSearchLayout = () => {
 							placeholder={`Type here to search`}
 						/>
 						<button
-							className={`w-auto h-auto py-2 px-4 rounded-md bg-primary text-sm text-primary-100 flex justify-center items-center gap-2`}
+							className={`w-auto h-auto py-2 px-4 rounded-md bg-primary text-sm text-slate-100 flex justify-center items-center gap-2`}
 						>
 							Search
 							{icons("search")}
