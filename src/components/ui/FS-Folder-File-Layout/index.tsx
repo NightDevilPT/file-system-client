@@ -20,7 +20,7 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 	title,
 	showLayoutChange = true,
 }) => {
-	const [view, setView] = useState<FSViewEnum>(FSViewEnum.GRID);
+	const [view, setView] = useState<FSViewEnum>(FSViewEnum.TABLE);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [data, setData] = useState<FileFolder[]>([]);
 

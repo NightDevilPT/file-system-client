@@ -1,9 +1,9 @@
-import React from "react";
-import FileFolderLoader from "@/common/FileFolderLoader";
 import { FSFileFolderProps } from "@/interface/interface";
+import React from "react";
+import FSTable from "./FS-Table";
 
 const FSTableView = ({ data }: FSFileFolderProps) => {
-	return <div className={`w-full h-32`}></div>;
+	return <FSTable data={data} />;
 };
 
 export default FSTableView;

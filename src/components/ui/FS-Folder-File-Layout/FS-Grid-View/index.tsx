@@ -8,7 +8,7 @@ import {
 const FSGridView = ({ data }: FSFileFolderProps) => {
 	return (
 		<div
-			className={`w-full h-auto gap-5 grid grid-cols-5 max-xl:grid-cols-4`}
+			className={`w-full h-auto gap-5 grid grid-cols-[repeat(auto-fit,_minmax(250px,_1fr))]`}
 		>
 			{data.map((items: FileFolder, index: number) => {
 				return <FSGridCard data={items} key={items.id} />;
