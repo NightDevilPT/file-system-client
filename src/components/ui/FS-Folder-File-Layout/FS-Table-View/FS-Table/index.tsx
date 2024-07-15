@@ -116,16 +116,18 @@ export default function FSTable({ data }: FSFileFolderProps) {
 	return (
 		<Table
 			color={"primary"}
-			selectionMode="single"
+			selectionMode="none"
 			shadow="none"
-			classNames={{ table: [" p-0"] }}
+			classNames={{ wrapper: ["p-0"] }}
 		>
-			<TableHeader columns={columns}>
+			<TableHeader columns={columns} className="p-0">
 				{(column) => (
 					<TableColumn
 						key={column.uid}
 						align={"center"}
-						className={`w-auto`}
+						className={`${
+							column.uid === "actions" ? "w-32" : "w-auto"
+						}`}
 					>
 						{column.name}
 					</TableColumn>

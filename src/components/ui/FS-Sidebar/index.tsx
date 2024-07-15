@@ -9,6 +9,7 @@ import FSUsernav from "../FS-Usernav";
 import FSCreateFolderModal from "./FS-CreateFolder-Modal";
 import FSCreateFileModal from "./FS-CreateFile-Modal";
 import FSStorageInformation from "../FS-Storage";
+import { usePathname, useRouter } from "next/navigation";
 
 export enum ActiveButtonEnum {
 	createFolder = "Create Folder",
@@ -23,6 +24,13 @@ const FSSidebar = () => {
 	const [active, setActive] = useState<ActiveButtonEnum>(
 		ActiveButtonEnum.createFolder
 	);
+	const router = useRouter();
+	const pathname = usePathname()
+
+    const handlerNavigateFunction = (event:any) => {
+		event.preventDefault();
+        router.push(`/${event.target.name}`);
+    };
 	return (
 		<div
 			className={`w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
@@ -41,8 +49,10 @@ const FSSidebar = () => {
 			<div className={`w-full h-auto grid grid-cols-1 gap-3 mt-8`}>
 				<Button
 					variant="light"
-					color="default"
+					color={pathname==='/'?'primary':'default'}
 					fullWidth
+					name=""
+					onClick={handlerNavigateFunction}
 					startContent={icons("dashboard")}
 					className={`flex justify-start items-center`}
 				>
@@ -50,8 +60,10 @@ const FSSidebar = () => {
 				</Button>
 				<Button
 					variant="light"
-					color="default"
+					color={pathname==='/folder-files'?'primary':'default'}
 					fullWidth
+					name="folder-files"
+					onClick={handlerNavigateFunction}
 					startContent={icons("folder")}
 					className={`flex justify-start items-center`}
 				>

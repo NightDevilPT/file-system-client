@@ -6,9 +6,9 @@ import {
 	DropdownItem,
 } from "@nextui-org/react";
 import icons from "@/utils/icons";
+import { FSViewEnum } from "@/interface/interface";
 
-export default function FSFileFolderDowndown() {
-
+export default function FSFileFolderDowndown({ view }: { view?: FSViewEnum }) {
 	return (
 		<Dropdown>
 			<DropdownTrigger>
