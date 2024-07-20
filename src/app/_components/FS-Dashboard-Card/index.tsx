@@ -1,4 +1,4 @@
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import React from "react";
 
 export interface FSDashboardCardProps {
@@ -19,14 +19,14 @@ const FSDashboardCard = ({
 	const percentage = (currentSpace / totalSpace) * 100;
 	const getCardColor = () => {
 		return icon === "image"
-			? "bg-green-500/90 shadow-green-500/40"
+			? "bg-green-500/90"
 			: icon === "document"
-				? "bg-orange-500/90 shadow-orange-500/40"
+				? "bg-orange-500/90"
 				: icon === "audio"
-					? "bg-pink-500/90 shadow-pink-500/40"
+					? "bg-pink-500/90"
 					: icon === 'others'
-						? 'bg-red-500/90 shadow-red-500/40'
-						: "bg-blue-500/90 shadow-blue-500/40";
+						? 'bg-red-500/90'
+						: "bg-blue-500/90";
 	};
 	const getBarColor = () => {
 		return icon === "image"
@@ -43,7 +43,7 @@ const FSDashboardCard = ({
 		<div
 			className={`w-full h-auto flex justify-start items-center flex-wrap gap-3 ${getCardColor()} rounded-lg px-5 py-3 shadow-xl`}
 		>
-			<div className={`w-12 h-12 text-slate-50`}>{icons(icon)}</div>
+			<div className={`w-12 h-12 text-slate-50`}>{icons(icon as IconType)}</div>
 			<div className={`flex-1 grid grid-cols-1`}>
 				<h1 className={`text-xl text-slate-50`}>{title}</h1>
 				<span className={`text-sm text-slate-50`}>{subTitle}</span>

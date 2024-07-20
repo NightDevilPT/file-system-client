@@ -1,7 +1,6 @@
 import {
 	Avatar,
 	Button,
-	Divider,
 	Dropdown,
 	DropdownItem,
 	DropdownMenu,
@@ -10,9 +9,12 @@ import {
 import React from "react";
 
 import avtar from "../../../assets/avtar.jpeg";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
+import FSThemeButton from "../FS-ThemeButton";
+import { ThemeType, useTheme } from "@/Providers/ThemeProvider";
 
 const FSUsernav = () => {
+	const { theme, toggleTheme } = useTheme();
 	return (
 		<Dropdown>
 			<DropdownTrigger>
@@ -33,23 +35,31 @@ const FSUsernav = () => {
 			<DropdownMenu aria-label="Static Actions">
 				<DropdownItem
 					key="profile"
-					startContent={icons("userName")}
+					startContent={icons(IconType.USER_NAME)}
 					color="primary"
 				>
 					Profile
 				</DropdownItem>
 				<DropdownItem
 					key="profile"
-					startContent={icons("edit")}
+					startContent={icons(IconType.EDIT)}
 					color="primary"
 				>
 					Edit
 				</DropdownItem>
 				<DropdownItem
 					key="logout"
+					color="primary"
+					startContent={icons(theme===ThemeType.dark?IconType.LIGHT:IconType.DARK)}
+					onClick={toggleTheme}
+				>
+					Appearance
+				</DropdownItem>
+				<DropdownItem
+					key="logout"
 					className="text-danger"
 					color="danger"
-					startContent={icons("logout")}
+					startContent={icons(IconType.LOGOUT)}
 				>
 					Logout
 				</DropdownItem>

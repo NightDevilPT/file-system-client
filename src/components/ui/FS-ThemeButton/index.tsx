@@ -1,21 +1,21 @@
-import icons from "@/utils/icons";
+import { ThemeType, useTheme } from "@/Providers/ThemeProvider";
+import icons, { IconType } from "@/utils/icons";
 import React, { useState } from "react";
 
-const FSThemeButton = () => {
-	const [theme, setTheme] = useState<string>("light");
+export interface FSThemeProps {
+	width?: string;
+	height?: string;
+}
 
-	const changeTheme = () => {
-		const themeName = theme === "dark" ? "light" : "dark";
-		setTheme(themeName);
-		document.documentElement.setAttribute("class", themeName);
-	};
+const FSThemeButton = ({ width = "w-8", height = "w-8" }: FSThemeProps) => {
+	const { theme, toggleTheme } = useTheme();
 
 	return (
 		<button
-			className={`w-8 h-8 text-foreground-400 p-1 flex justify-center items-center border-2 rounded-full border-foreground-400`}
-			onClick={changeTheme}
+			className={`${width} ${height} text-foreground-400 p-1 flex justify-center items-center border-2 rounded-full border-foreground-400`}
+			onClick={toggleTheme}
 		>
-			{icons(theme==='dark'?'light':'dark')}
+			{icons(theme===ThemeType.dark?IconType.LIGHT:IconType.DARK)}
 		</button>
 	);
 };

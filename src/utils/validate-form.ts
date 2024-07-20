@@ -11,13 +11,11 @@ export const validateFormState = (form: HTMLFormElement): FormData | null => {
 				(element as HTMLInputElement).value,
 			];
 			if (value === "") {
-				console.log(`${name} is required`);
 				showErrorToast(`${name} is required`);
 				return null;
 			}
 			if (name === "email") {
 				if (!emailRegex.test(value)) {
-					console.log("Invalid email format");
 					showWarningToast("Invalid Email Format");
 					return null;
 				}

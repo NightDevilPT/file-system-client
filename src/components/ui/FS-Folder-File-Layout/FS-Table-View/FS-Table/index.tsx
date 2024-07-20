@@ -19,9 +19,8 @@ import other from "../../../../../assets/other.png";
 import video from "../../../../../assets/video.png";
 import folder from "../../../../../assets/folder.png";
 import { DateFormatEnum, formatDate } from "@/utils/date";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import FSFileFolderDropdown from "../../FS-File-Folder-Dropdown";
-import { table } from "console";
 
 const columns = [
 	{ name: "FILE TYPE", uid: "file type" },
@@ -34,7 +33,6 @@ export default function FSTable({ data }: FSFileFolderProps) {
 	const [isSaved, setIsSaved] = useState<boolean>(false);
 
 	const toggleSave = () => {
-		console.log("toggled");
 		setIsSaved(!isSaved);
 	};
 
@@ -69,8 +67,8 @@ export default function FSTable({ data }: FSFileFolderProps) {
 									onClick={toggleSave}
 								>
 									{isSaved
-										? icons("savedBookmark")
-										: icons("bookmark")}
+										? icons(IconType.SAVED_BOOKMARK)
+										: icons(IconType.BOOKMARK)}
 								</button>
 							</Tooltip>
 							<Tooltip content="Edit">

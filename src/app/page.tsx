@@ -4,7 +4,7 @@ import { Divider } from "@nextui-org/divider";
 
 export default function Home() {
   return (
-    <div className={`font-rubik flex-1 w-full h-[90vh] overflow-y-auto`}>
+    <div className={`font-rubik flex-1 w-full h-[90vh] overflow-x-hidden rounded-md overflow-y-auto`}>
       <FSDashboard />
     </div>
   );
