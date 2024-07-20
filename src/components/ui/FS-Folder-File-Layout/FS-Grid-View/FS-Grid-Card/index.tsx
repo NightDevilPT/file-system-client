@@ -1,4 +1,4 @@
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import React, { useState } from "react";
 import { DateFormatEnum, formatDate } from "@/utils/date";
 import FSFileFolderDropdown from "../../FS-File-Folder-Dropdown";
@@ -55,7 +55,7 @@ const FSGridCard: React.FC<FSGridTableProps> = ({ data }) => {
                     className={`w-5 h-auto absolute right-1 top-2 text-foreground ${isSaved && "text-pink-500"}`}
                     onClick={toggleSave}
                 >
-                    {isSaved ? icons("savedBookmark") : icons("bookmark")}
+                    {isSaved ? icons(IconType.SAVED_BOOKMARK) : icons(IconType.BOOKMARK)}
                 </button>
             </div>
             <div className="w-full h-auto flex justify-start items-center gap-3">

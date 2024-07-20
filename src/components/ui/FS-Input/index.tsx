@@ -5,7 +5,7 @@ import { FSInputInterface, InputVariantEnum } from "@/types/form.type";
 import { Input } from "@nextui-org/react";
 import { AiOutlineEye } from "react-icons/ai";
 import { AiOutlineEyeInvisible } from "react-icons/ai";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 
 const FSInput = ({
 	type,
@@ -42,7 +42,7 @@ const FSInput = ({
 			startContent={
 				icon && (
 					<div className="text-xl text-default-400 pointer-events-none relative mr-3">
-						{icons(icon)}
+						{icons(icon as IconType)}
 						<span className={` absolute -right-2 -top-2 text-red-500 w-3 h-3`}>*</span>
 					</div>
 				)

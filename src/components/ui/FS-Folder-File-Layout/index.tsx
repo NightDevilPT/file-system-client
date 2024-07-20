@@ -4,7 +4,7 @@ import { Divider } from "@nextui-org/divider";
 import { Pagination } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import FSGridView from "./FS-Grid-View";
 import FSTableView from "./FS-Table-View";
 import generateDummyData from "@/utils/get-dummy";
@@ -47,7 +47,7 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 							}`}
 							onClick={() => toggleView(FSViewEnum.GRID)}
 						>
-							{icons("grid")}
+							{icons(IconType.GRID)}
 						</button>
 						<button
 							className={`w-6 h-6 bg-transparent z-10 ${
@@ -55,7 +55,7 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 							}`}
 							onClick={() => toggleView(FSViewEnum.TABLE)}
 						>
-							{icons("table")}
+							{icons(IconType.TABLE)}
 						</button>
 						<div
 							className={`absolute z-0 transition-all duration-300 ${

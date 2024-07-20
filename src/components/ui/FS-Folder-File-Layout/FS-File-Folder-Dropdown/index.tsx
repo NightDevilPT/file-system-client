@@ -5,24 +5,24 @@ import {
 	DropdownMenu,
 	DropdownItem,
 } from "@nextui-org/react";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import { FSViewEnum } from "@/interface/interface";
 
 export default function FSFileFolderDowndown({ view }: { view?: FSViewEnum }) {
 	return (
 		<Dropdown>
 			<DropdownTrigger>
-				<button className={`w-5 h-5`}>{icons("threeDot")}</button>
+				<button className={`w-5 h-5`}>{icons(IconType.THREE_DOT)}</button>
 			</DropdownTrigger>
 			<DropdownMenu variant="faded" aria-label="Dropdown menu with icons">
-				<DropdownItem key="edit" startContent={icons("edit")}>
+				<DropdownItem key="edit" startContent={icons(IconType.EDIT)}>
 					Edit
 				</DropdownItem>
 				<DropdownItem
 					key="delete"
 					className="text-danger"
 					color="danger"
-					startContent={icons("delete")}
+					startContent={icons(IconType.DELETE)}
 				>
 					Delete
 				</DropdownItem>

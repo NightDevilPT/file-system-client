@@ -3,7 +3,7 @@
 import React from "react";
 import { Divider, Select, SelectItem } from "@nextui-org/react";
 
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import FSUsernav from "../FS-Usernav";
 import FSThemeButton from "../FS-ThemeButton";
 
@@ -36,7 +36,7 @@ const FSSearchLayout = () => {
 							className={`w-auto h-auto py-2 px-4 rounded-md bg-primary text-sm text-slate-100 flex justify-center items-center gap-2`}
 						>
 							Search
-							{icons("search")}
+							{icons(IconType.SEARCH)}
 						</button>
 					</div>
 					<div className={` w-44 h-full`}>

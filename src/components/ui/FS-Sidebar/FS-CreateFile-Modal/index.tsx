@@ -1,4 +1,4 @@
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import { Button } from "@nextui-org/button";
 import { Input, useDisclosure } from "@nextui-org/react";
 import React, { useState } from "react";
@@ -22,7 +22,7 @@ const FSCreateFolderModal = () => {
 				variant="solid"
 				color="secondary"
 				fullWidth
-				startContent={icons("addFile")}
+				startContent={icons(IconType.ADD_FILE)}
 				className={`flex justify-start items-center`}
 				onPress={onOpen}
 			>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import FSLogoFrame from "../FS-Logo";
 import { Divider } from "@nextui-org/divider";
 import { Button } from "@nextui-org/button";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import FSUsernav from "../FS-Usernav";
 import FSCreateFolderModal from "./FS-CreateFolder-Modal";
 import FSCreateFileModal from "./FS-CreateFile-Modal";
@@ -53,7 +53,7 @@ const FSSidebar = () => {
 					fullWidth
 					name=""
 					onClick={handlerNavigateFunction}
-					startContent={icons("dashboard")}
+					startContent={icons(IconType.DASHBOARD)}
 					className={`flex justify-start items-center`}
 				>
 					Dashboard
@@ -64,7 +64,7 @@ const FSSidebar = () => {
 					fullWidth
 					name="folder-files"
 					onClick={handlerNavigateFunction}
-					startContent={icons("folder")}
+					startContent={icons(IconType.DASHBOARD)}
 					className={`flex justify-start items-center`}
 				>
 					My Folder / File
@@ -73,7 +73,7 @@ const FSSidebar = () => {
 					variant="light"
 					color="default"
 					fullWidth
-					startContent={icons("favorite")}
+					startContent={icons(IconType.FAVORITE)}
 					className={`flex justify-start items-center`}
 				>
 					Favorite
@@ -82,7 +82,7 @@ const FSSidebar = () => {
 					variant="light"
 					color="danger"
 					fullWidth
-					startContent={icons("trash")}
+					startContent={icons(IconType.TRASH)}
 					className={`flex justify-start items-center`}
 				>
 					Trash

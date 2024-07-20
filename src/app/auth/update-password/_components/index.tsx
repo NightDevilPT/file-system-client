@@ -1,6 +1,5 @@
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
-import icons from "@/utils/icons";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import Link from "next/link";

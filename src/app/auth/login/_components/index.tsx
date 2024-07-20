@@ -1,6 +1,6 @@
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
-import icons from "@/utils/icons";
+import icons, { IconType } from "@/utils/icons";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 import Link from "next/link";
@@ -63,7 +63,7 @@ const LoginForm = () => {
 				fullWidth
 				data-hover=""
 				className={`text-slate-200 tracking-wider bg-slate-950 hover:bg-slate-900 dark:bg-slate-50 dark:hover:bg-slate-200 dark:text-foreground-50`}
-				startContent={icons('github')}
+				startContent={icons(IconType.GITHUB)}
 			>
 				Login with github
 			</Button>
