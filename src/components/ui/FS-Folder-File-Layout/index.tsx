@@ -10,19 +10,23 @@ import FSTableView from "./FS-Table-View";
 import generateDummyData from "@/utils/get-dummy";
 import FileFolderLoader from "@/common/FileFolderLoader";
 import { FileFolder, FSViewEnum } from "@/interface/interface";
+import { useParams } from "next/navigation";
 
 export interface FSFolderFileLayoutProps {
 	title: string;
 	showLayoutChange?: boolean;
+	defaultView?:FSViewEnum
 }
 
 const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 	title,
 	showLayoutChange = true,
+	defaultView=FSViewEnum.GRID
 }) => {
-	const [view, setView] = useState<FSViewEnum>(FSViewEnum.TABLE);
+	const [view, setView] = useState<FSViewEnum>(defaultView);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [data, setData] = useState<FileFolder[]>([]);
+	const params = useParams();
 
 	useEffect(() => {
 		setLoading(true);

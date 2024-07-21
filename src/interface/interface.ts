@@ -33,6 +33,7 @@ export interface Folder {
 	isTrash: boolean;
 	isAccessable: PrivateEnum;
 	userIds: string[];
+	isFavourite?:boolean;
 	shareToken: string | null;
 	breadcrumb: Breadcrumb[];
 	createdBy: string;
@@ -49,6 +50,7 @@ export interface File {
 	fileType: FileTypeEnum;
 	type: "FILE";
 	isTrash: boolean;
+	isFavourite?:boolean;
 	isAccessable: PrivateEnum;
 	shareToken: string | null;
 	userIds: string[];

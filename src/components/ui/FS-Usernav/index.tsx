@@ -12,9 +12,14 @@ import avtar from "../../../assets/avtar.jpeg";
 import icons, { IconType } from "@/utils/icons";
 import FSThemeButton from "../FS-ThemeButton";
 import { ThemeType, useTheme } from "@/Providers/ThemeProvider";
+import { useRouter } from "next/navigation";
 
 const FSUsernav = () => {
 	const { theme, toggleTheme } = useTheme();
+	const router = useRouter()
+	const handleLogout=()=>{
+        router.push(`/auth/login`);
+	}
 	return (
 		<Dropdown>
 			<DropdownTrigger>
@@ -59,6 +64,7 @@ const FSUsernav = () => {
 					key="logout"
 					className="text-danger"
 					color="danger"
+					onClick={handleLogout}
 					startContent={icons(IconType.LOGOUT)}
 				>
 					Logout

@@ -56,9 +56,6 @@ const FSDashboardCard = ({
 					className={`h-full bg-slate-50 rounded-full`}
 				></span>
 			</div>
-			{/* <div className={`w-full h-auto flex justify-start items-start gap-2 text-slate-50 text-sm`}>
-				<span>Space Occupied : {currentSpace}MB</span>
-			</div> */}
 			<div className={`w-full h-auto flex justify-start items-center gap-3 font-sans text-xs text-slate-100`}>
 				<div className={`flex justify-start items-center gap-1`}>
 					<span className={`w-3 h-3 rounded bg-slate-50`} />

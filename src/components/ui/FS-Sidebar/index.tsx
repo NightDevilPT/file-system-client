@@ -21,9 +21,6 @@ export enum ActiveButtonEnum {
 }
 
 const FSSidebar = () => {
-	const [active, setActive] = useState<ActiveButtonEnum>(
-		ActiveButtonEnum.createFolder
-	);
 	const router = useRouter();
 	const pathname = usePathname()
 
@@ -64,7 +61,7 @@ const FSSidebar = () => {
 					fullWidth
 					name="folder-files"
 					onClick={handlerNavigateFunction}
-					startContent={icons(IconType.DASHBOARD)}
+					startContent={icons(IconType.FOLDER)}
 					className={`flex justify-start items-center`}
 				>
 					My Folder / File
@@ -72,6 +69,17 @@ const FSSidebar = () => {
 				<Button
 					variant="light"
 					color="default"
+					fullWidth
+					startContent={icons(IconType.HISTORY)}
+					className={`flex justify-start items-center`}
+				>
+					Recent Activity
+				</Button>
+				<Button
+					variant="light"
+					color="default"
+					name="favourites"
+					onClick={handlerNavigateFunction}
 					fullWidth
 					startContent={icons(IconType.FAVORITE)}
 					className={`flex justify-start items-center`}
@@ -81,6 +89,8 @@ const FSSidebar = () => {
 				<Button
 					variant="light"
 					color="danger"
+					name="trash"
+					onClick={handlerNavigateFunction}
 					fullWidth
 					startContent={icons(IconType.TRASH)}
 					className={`flex justify-start items-center`}

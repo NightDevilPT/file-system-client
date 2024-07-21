@@ -11,7 +11,7 @@ import video from "../../../../../assets/video.png";
 import folder from "../../../../../assets/folder.png";
 
 const FSGridCard: React.FC<FSGridTableProps> = ({ data }) => {
-    const [isSaved, setIsSaved] = useState<boolean>(false);
+    const [isSaved, setIsSaved] = useState<boolean>(data.isFavourite || false);
 
     const toggleSave = () => {
         setIsSaved(!isSaved);

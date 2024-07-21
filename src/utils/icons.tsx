@@ -16,7 +16,7 @@ import { CiFileOn, CiGrid41, CiViewTable } from "react-icons/ci";
 import { RiErrorWarningLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMoon } from "react-icons/ai";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsClockHistory, BsThreeDotsVertical } from "react-icons/bs";
 
 export enum IconType {
     MAIL = "mail",
@@ -50,6 +50,7 @@ export enum IconType {
     SAVED_BOOKMARK = "savedBookmark",
     THREE_DOT = "threeDot",
     DELETE = "delete",
+    HISTORY = "history",
 }
 
 const icons = (type: IconType) => {
@@ -78,13 +79,14 @@ const icons = (type: IconType) => {
         [IconType.SEARCH]: <FiSearch className={`min-w-5 min-h-5`} />,
         [IconType.LIGHT]: <LuSunMedium className={`min-w-5 min-h-5`} />,
         [IconType.DARK]: <AiFillMoon className={`min-w-5 min-h-5`} />,
-        [IconType.GRID]: <CiGrid41 className={`min-w-5 min-h-5`} />,
-        [IconType.TABLE]: <CiViewTable className={`min-w-5 min-h-5`} />,
+        [IconType.GRID]: <CiGrid41 className={`min-w-5 min-h-5 w-full h-full`} />,
+        [IconType.TABLE]: <CiViewTable className={`min-w-5 min-h-5 w-full h-full`} />,
         [IconType.EDIT]: <MdOutlineEditNote className={`min-w-5 min-h-5`} />,
         [IconType.BOOKMARK]: <GoBookmark className={`min-w-5 min-h-5`} />,
         [IconType.SAVED_BOOKMARK]: <GoBookmarkFill className={`min-w-5 min-h-5`} />,
         [IconType.THREE_DOT]: <BsThreeDotsVertical className={`min-w-4 min-h-4`} />,
         [IconType.DELETE]: <IoTrashOutline className={`min-w-5 min-h-5`} />,
+        [IconType.HISTORY]: <BsClockHistory className={`min-w-5 min-h-5`} />,
     };
     return icon[type];
 };
