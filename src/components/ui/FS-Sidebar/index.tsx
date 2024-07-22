@@ -23,6 +23,7 @@ export enum ActiveButtonEnum {
 const FSSidebar = () => {
 	const router = useRouter();
 	const pathname = usePathname()
+	const isFolderFilesRoute = /^\/folder-files(\/.*)?$/.test(pathname);
 
     const handlerNavigateFunction = (event:any) => {
 		event.preventDefault();
@@ -57,7 +58,7 @@ const FSSidebar = () => {
 				</Button>
 				<Button
 					variant="light"
-					color={pathname==='/folder-files'?'primary':'default'}
+					color={isFolderFilesRoute ? 'primary' : 'default'}
 					fullWidth
 					name="folder-files"
 					onClick={handlerNavigateFunction}
