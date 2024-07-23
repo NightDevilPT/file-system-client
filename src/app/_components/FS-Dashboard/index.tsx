@@ -5,6 +5,7 @@ import FSEChart from "@/components/ui/FS-Charts";
 import FSUsernav from "@/components/ui/FS-Usernav";
 import FSFavouriteLayout from "@/components/ui/FS-Favorite-Layout";
 import { FSViewEnum } from "@/interface/interface";
+import FSRecent from "../FS-Recent";
 
 const dummyData: FSDashboardCardProps[] = [
 	{
@@ -102,12 +103,15 @@ const FSDashboard = () => {
 				</div>
 			</div>
 			<div className={`w-full h-auto grid grid-cols-5 gap-5`}>
-				<div className=" col-span-3">
+				<div className=" col-span-3 max-[1400px]:col-span-full">
 					<FSFavouriteLayout
 						title="Favourites"
 						defaultView={FSViewEnum.GRID}
 						showLayoutChange={false}
 					/>
+				</div>
+				<div className=" col-span-2 max-[1400px]:col-span-full">
+					<FSRecent />
 				</div>
 			</div>
 		</div>
