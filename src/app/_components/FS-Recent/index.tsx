@@ -1,4 +1,3 @@
-import FSRecentActivity from "@/components/ui/FS-RecentActivity";
 import { History } from "@/types/history";
 import { generateDescription } from "@/utils/history-description";
 import { sampleHistoryData } from "@/utils/history-dummy.data";
