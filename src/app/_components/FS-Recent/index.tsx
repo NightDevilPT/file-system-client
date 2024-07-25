@@ -1,9 +1,10 @@
-import { History } from "@/types/history";
+import { History, SharedEvents } from "@/types/history";
 import { generateDescription } from "@/utils/history-description";
 import { sampleHistoryData } from "@/utils/history-dummy.data";
 import { Divider } from "@nextui-org/divider";
 import React from "react";
 import FSRecetCards from "./FS-RecentCard";
+import Link from "next/link";
 
 const FSRecent = () => {
 	return (
@@ -12,13 +13,23 @@ const FSRecent = () => {
 				<h1 className="text-lg font-sans text-foreground">
 					Recent Activities
 				</h1>
-				{/* <Link href="/folder-files" className={`text-primary-400 text-sm hover:text-primary-600 transition-all duration-300`}>View All</Link> */}
+				<Link href="/recent-activity" className={`text-primary-400 text-sm hover:text-primary-600 transition-all duration-300`}>View All</Link>
 			</div>
 			<Divider className="mb-3" />
-			<div className={`w-full h-auto max-h-96 overflow-y-auto grid grid-cols-1 gap-3`}>
-				{sampleHistoryData.map((items:History,index:number)=>{
-					const description:JSX.Element = generateDescription(items);
-					return <FSRecetCards key={items.id} description={description} id={items.id} createdAt={items.createdAt} />
+			<div
+				className={`w-full h-auto max-h-96 overflow-y-auto grid grid-cols-1 gap-3`}
+			>
+				{sampleHistoryData.map((items: History, index: number) => {
+					const description: JSX.Element = generateDescription(items);
+					return (
+						<FSRecetCards
+							key={items.id}
+							description={description}
+							id={items.id}
+							createdAt={items.createdAt}
+							eventName={items.eventName as SharedEvents}
+						/>
+					);
 				})}
 			</div>
 		</div>

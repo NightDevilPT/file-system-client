@@ -17,6 +17,7 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMoon } from "react-icons/ai";
 import { BsClockHistory, BsThreeDotsVertical } from "react-icons/bs";
+import { SharedEvents } from "@/types/history";
 
 export enum IconType {
     MAIL = "mail",
@@ -53,8 +54,8 @@ export enum IconType {
     HISTORY = "history",
 }
 
-const icons = (type: IconType) => {
-    const icon = {
+const icons = (type: IconType | SharedEvents) => {
+    const combinedIcons: Record<string, JSX.Element> = {
         [IconType.MAIL]: <IoMailOutline />,
         [IconType.PASSWORD]: <TbPasswordUser className={`min-w-5 min-h-5`} />,
         [IconType.EYE_OPEN]: <VscEye className={`min-w-5 min-h-5`} />,
@@ -87,8 +88,24 @@ const icons = (type: IconType) => {
         [IconType.THREE_DOT]: <BsThreeDotsVertical className={`min-w-4 min-h-4`} />,
         [IconType.DELETE]: <IoTrashOutline className={`min-w-5 min-h-5`} />,
         [IconType.HISTORY]: <BsClockHistory className={`min-w-5 min-h-5`} />,
+        
+        [SharedEvents.FileCreatedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FileMovedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FileNameChangedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FilePermissionChangedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FolderCreatedEvent]: <IoFolderOpenOutline className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FolderMovedEvent]: <IoFolderOpenOutline className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FolderNameChangedEvent]: <IoFolderOpenOutline className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.FolderPermissionChangedEvent]: <IoFolderOpenOutline className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.UserCreatedEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.UserForgetPasswordRequestEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.UserLoginEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.UserPasswordUpdatedEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.UserVerifyEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.ProfileCreatedEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
+        [SharedEvents.ProfileUpdatedEvent]: <HiOutlineUserCircle className={`min-w-5 min-h-5 w-full h-full`} />,
     };
-    return icon[type];
+    return combinedIcons[type];
 };
 
 export default icons;

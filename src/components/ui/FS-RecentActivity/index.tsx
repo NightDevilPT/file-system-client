@@ -14,11 +14,12 @@ import {
 import { DateFormatEnum, formatDate } from "@/utils/date";
 import { generateDescription } from '@/utils/history-description';
 import { History } from '@/types/history';
+import icons from '@/utils/icons';
 
 const columns = [
+  { name: "ICON", uid: "eventName" },
   { name: "DESCRIPTION", uid: "description" },
-//   { name: "EVENT NAME", uid: "eventName" },
-//   { name: "CREATED AT", uid: "createdAt" },
+  { name: "CREATED AT", uid: "createdAt" },
 ];
 
 interface HistoryTableProps {
@@ -37,14 +38,14 @@ export default function FSRecentActivity({ data }: HistoryTableProps) {
           );
         case "eventName":
           return (
-            <div className="w-auto h-auto text-sm font-rubik">
-              {item.eventName}
+            <div className="w-8 h-8 text-default-400">
+              {icons(item.eventName as any)}
             </div>
           );
         case "createdAt":
           return (
             <div className="w-auto h-auto text-sm font-rubik">
-              {/* {formatDate(item.createdAt, DateFormatEnum.DD_MM_YYYY)} */}
+              {formatDate(new Date(item.createdAt), DateFormatEnum.DD_MM_YYYY)}
             </div>
           );
         default:
@@ -57,9 +58,9 @@ export default function FSRecentActivity({ data }: HistoryTableProps) {
   return (
     <Table
       color="primary"
-      selectionMode="none"
+      selectionMode="single"
       shadow="none"
-      classNames={{ wrapper: ["p-0"] }}
+      classNames={{ wrapper: ["p-3"] }}
     >
       <TableHeader columns={columns} className="p-0">
         {column => (

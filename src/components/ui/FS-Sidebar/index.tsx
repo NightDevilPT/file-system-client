@@ -70,9 +70,11 @@ const FSSidebar = () => {
 				<Button
 					variant="light"
 					color="default"
+					name="recent-activity"
 					fullWidth
 					startContent={icons(IconType.HISTORY)}
 					className={`flex justify-start items-center`}
+					onClick={handlerNavigateFunction}
 				>
 					Recent Activity
 				</Button>
