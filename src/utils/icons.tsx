@@ -17,7 +17,10 @@ import { RiErrorWarningLine } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { AiFillMoon } from "react-icons/ai";
 import { BsClockHistory, BsThreeDotsVertical } from "react-icons/bs";
+import { BsFillPatchCheckFill } from "react-icons/bs";
+import { IoWarning } from "react-icons/io5";
 import { SharedEvents } from "@/types/history";
+
 
 export enum IconType {
     MAIL = "mail",
@@ -52,6 +55,8 @@ export enum IconType {
     THREE_DOT = "threeDot",
     DELETE = "delete",
     HISTORY = "history",
+    SUCCESS = "success",
+    WARNING = "warning"
 }
 
 const icons = (type: IconType | SharedEvents) => {
@@ -88,6 +93,8 @@ const icons = (type: IconType | SharedEvents) => {
         [IconType.THREE_DOT]: <BsThreeDotsVertical className={`min-w-4 min-h-4`} />,
         [IconType.DELETE]: <IoTrashOutline className={`min-w-5 min-h-5`} />,
         [IconType.HISTORY]: <BsClockHistory className={`min-w-5 min-h-5`} />,
+        [IconType.SUCCESS]: <BsFillPatchCheckFill className={`min-w-5 min-h-5`} />,
+        [IconType.WARNING]: <IoWarning className={`min-w-5 min-h-5`} />,
         
         [SharedEvents.FileCreatedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,
         [SharedEvents.FileMovedEvent]: <CiFileOn className={`min-w-5 min-h-5 w-full h-full`} />,

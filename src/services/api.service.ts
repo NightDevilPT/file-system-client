@@ -1,13 +1,13 @@
 import { env } from '@/config/env';
 import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
 
-interface ApiResponse<T = any> {
+export interface ApiResponse<T = any> {
     status: number;
     message: string;
     data: T;
 }
 
-interface ApiError {
+export interface ApiError {
     status: number;
     message: string;
     data?: any;
@@ -16,19 +16,19 @@ interface ApiError {
 export class ApiService {
     private api: AxiosInstance;
 
-    constructor() {
+    constructor(tokenRetriever: () => string | null = () => localStorage.getItem('token')) {
         this.api = axios.create({
             baseURL: env.BACKEND_URL,
             headers: {
                 'Content-Type': 'application/json',
             },
+            timeout: 10000, // Set a default timeout
         });
 
         // Add request interceptor
         this.api.interceptors.request.use(
             config => {
-                // Modify request config before sending (e.g., add auth token)
-                const token = localStorage.getItem('token'); // Example token retrieval
+                const token = tokenRetriever();
                 if (token) {
                     config.headers['Authorization'] = `Bearer ${token}`;
                 }
@@ -67,6 +67,7 @@ export class ApiService {
                 data: response.data,
             };
         } catch (error) {
+            this.logError(error);  // Optionally log error
             return error as ApiError;
         }
     }
@@ -80,11 +81,12 @@ export class ApiService {
                 data: response.data,
             };
         } catch (error) {
+            this.logError(error);  // Optionally log error
             return error as ApiError;
         }
     }
 
-    async put<T = any>(url: string, data: any): Promise<ApiResponse<T> | ApiError> {
+    async put<T = any>(url: string, data?: any): Promise<ApiResponse<T> | ApiError> {
         try {
             const response: AxiosResponse<T> = await this.api.put(url, data);
             return {
@@ -93,6 +95,7 @@ export class ApiService {
                 data: response.data,
             };
         } catch (error) {
+            this.logError(error);  // Optionally log error
             return error as ApiError;
         }
     }
@@ -106,6 +109,7 @@ export class ApiService {
                 data: response.data,
             };
         } catch (error) {
+            this.logError(error);  // Optionally log error
             return error as ApiError;
         }
     }
@@ -123,7 +127,13 @@ export class ApiService {
                 data: response.data,
             };
         } catch (error) {
+            this.logError(error);  // Optionally log error
             return error as ApiError;
         }
+    }
+
+    private logError(error: any): void {
+        // Implement your logging logic here, such as sending the error to a logging service
+        console.error('API Error:', error);
     }
 }

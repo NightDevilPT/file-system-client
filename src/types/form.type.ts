@@ -10,12 +10,13 @@ export interface FSInputInterface{
 	name:string;
 	type:string;
 	placeholder?:string;
-	label:string;
+	label?:string;
 	icon?:string;
 	formVarient?:InputVariantEnum;
 	disabled?:boolean;
 	onChange?:any
 	required?:boolean;
+	error?:string;
 }
 
 export interface FSFileInputInterface{

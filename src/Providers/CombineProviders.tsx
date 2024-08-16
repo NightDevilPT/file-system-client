@@ -7,14 +7,17 @@ import { NextUiProvider } from "./NextUiProvider";
 import { ContainerProvider } from "./ContainerProvider";
 import { ToastContainer } from "react-toastify";
 import { ThemeProvider } from "./ThemeProvider";
+import { ReduxProvider } from "./ReduxProvider";
 
 export const CombineProvider = ({ children }: Children) => {
 	return (
 		<React.Fragment>
 			<NextUiProvider>
-				<ThemeProvider>
-					<ContainerProvider>{children}</ContainerProvider>
-				</ThemeProvider>
+				<ReduxProvider>
+					<ThemeProvider>
+						<ContainerProvider>{children}</ContainerProvider>
+					</ThemeProvider>
+				</ReduxProvider>
 				<ToastContainer
 					position="top-right"
 					autoClose={5000}
