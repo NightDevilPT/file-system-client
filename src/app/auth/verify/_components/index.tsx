@@ -1,14 +1,13 @@
-'use client'
+'use client';
 
-import FSLogoFrame from "@/components/ui/FS-Logo";
+import React, { useEffect, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
 import { verifyUser } from "@/redux/verify/thunk";
+import FSLogoFrame from "@/components/ui/FS-Logo";
 import icons, { IconType } from "@/utils/icons";
 import { Divider } from "@nextui-org/divider";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const VerifyPage = () => {
   const router = useRouter();
@@ -41,7 +40,7 @@ const VerifyPage = () => {
       <div className="w-full h-auto my-5 flex justify-center items-center flex-col gap-2">
         {status === "loading" && (
           <div className="bg-background flex justify-center items-center gap-3">
-            <span className=" min-w-5 min-h-5 rounded-full animate-spin border-4 border-primary-200 border-t-primary"></span>
+            <span className="min-w-5 min-h-5 rounded-full animate-spin border-4 border-primary-200 border-t-primary"></span>
             <span>Verifying...</span>
           </div>
         )}
@@ -66,4 +65,10 @@ const VerifyPage = () => {
   );
 };
 
-export default VerifyPage;
+const VerifyPageWithSuspense = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <VerifyPage />
+  </Suspense>
+);
+
+export default VerifyPageWithSuspense;
