@@ -1,6 +1,4 @@
 import FSDashboard from "@/app/_components/FS-Dashboard";
-import FSFolderFileLayout from "@/components/ui/FS-Folder-File-Layout";
-import { Divider } from "@nextui-org/divider";
 
 export default function Home() {
   return (

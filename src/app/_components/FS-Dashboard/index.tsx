@@ -2,7 +2,6 @@ import React from "react";
 import { Divider } from "@nextui-org/divider";
 import FSDashboardCard, { FSDashboardCardProps } from "../FS-Dashboard-Card";
 import FSEChart from "@/components/ui/FS-Charts";
-import FSUsernav from "@/components/ui/FS-Usernav";
 import FSFavouriteLayout from "@/components/ui/FS-Favorite-Layout";
 import { FSViewEnum } from "@/interface/interface";
 import FSRecent from "../FS-Recent";
