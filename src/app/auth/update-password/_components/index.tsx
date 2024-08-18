@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -12,7 +12,6 @@ import FSLogoFrame from '@/components/ui/FS-Logo';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux.hook';
 import { updatePasswordValidationSchema } from '@/schemas/update-password-form';
 import { updatePassword } from '@/redux/update-password/thunk';
-
 
 const UpdatePasswordForm = () => {
   const dispatch = useAppDispatch();
@@ -83,4 +82,13 @@ const UpdatePasswordForm = () => {
   );
 };
 
-export default UpdatePasswordForm;
+// A wrapper component to handle the suspense and fetch search parameters
+const UpdatePasswordWrapper = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <UpdatePasswordForm />
+    </Suspense>
+  );
+};
+
+export default UpdatePasswordWrapper;
