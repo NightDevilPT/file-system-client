@@ -1,14 +1,16 @@
+import { ApiStatusEnum } from '@/interface/interface';
+
 export interface UpdatePasswordPayload {
-	password: string;
-	token: string;
+  password: string;
+  token: string;
 }
 
 export interface UpdatePasswordResponse {
-	message: string;
+  message: string;
 }
 
 export interface UpdatePasswordState {
-	status: 'idle' | 'loading' | 'succeeded' | 'failed';
-	error: string | null;
-	responseMessage: string | null;
-  }
+  status: ApiStatusEnum;
+  error: string | null;
+  responseMessage: string | null;
+}
