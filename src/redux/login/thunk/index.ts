@@ -5,22 +5,29 @@ import { LoginPayload, userResponseInterface } from '../interface';
 const apiService = new ApiService();
 
 export const loginUser = createAsyncThunk<
-  userResponseInterface,  // Success response type
-  LoginPayload,          // Argument type
-  { rejectValue: ApiError } // Rejected action type
+  userResponseInterface,
+  LoginPayload,
+  { rejectValue: ApiError }
 >(
   'login/loginUser',
   async (loginData: LoginPayload, thunkAPI) => {
     try {
-      const response = await apiService.post<any>('/users/login', loginData);
+      const response = await apiService.post<userResponseInterface>(
+        '/users/login',
+        loginData
+      );
 
-      if (response.data.message === "Login successful") {
+      if (response.data.message === 'Login successful') {
         return response.data;
       } else {
-        return thunkAPI.rejectWithValue(response as ApiError);
+        return thunkAPI.rejectWithValue({
+          message: 'Unexpected response from the server.',
+        } as ApiError);
       }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error as ApiError);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({
+        message: error.message || 'An error occurred during login.',
+      } as ApiError);
     }
   }
 );
