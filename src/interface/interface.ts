@@ -10,6 +10,13 @@ export enum FileTypeEnum {
 	OTHER = "OTHER",
 }
 
+export enum ApiStatusEnum {
+	IDLE = "idle",
+	LOADING = "loading",
+	SUCCEEDED = "succeeded",
+	FAILED = "failed",
+}
+
 export type FolderEnum = "FOLDER" | "FILE";
 export type PrivateEnum = "PUBLIC" | "PRIVATE";
 
@@ -19,11 +26,11 @@ export interface Breadcrumb {
 }
 
 export interface FSGridTableProps {
-    data: FileFolder;
+	data: FileFolder;
 }
 
-export interface FSFileFolderProps{
-	data:FileFolder[]
+export interface FSFileFolderProps {
+	data: FileFolder[];
 }
 
 export interface Folder {
@@ -33,7 +40,7 @@ export interface Folder {
 	isTrash: boolean;
 	isAccessable: PrivateEnum;
 	userIds: string[];
-	isFavourite?:boolean;
+	isFavourite?: boolean;
 	shareToken: string | null;
 	breadcrumb: Breadcrumb[];
 	createdBy: string;
@@ -50,7 +57,7 @@ export interface File {
 	fileType: FileTypeEnum;
 	type: "FILE";
 	isTrash: boolean;
-	isFavourite?:boolean;
+	isFavourite?: boolean;
 	isAccessable: PrivateEnum;
 	shareToken: string | null;
 	userIds: string[];

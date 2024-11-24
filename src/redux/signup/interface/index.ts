@@ -1,3 +1,5 @@
+import { ApiStatusEnum } from "@/interface/interface";
+
 export interface SignupPayload {
 	username: string;
 	email: string;
@@ -5,7 +7,7 @@ export interface SignupPayload {
 }
 
 export interface SignupState {
-	status: 'idle' | 'loading' | 'succeeded' | 'failed';
+	status: ApiStatusEnum;
 	error: string | null;
 	data?: SignupPayload | null;  // Optional: To store the signup data if needed
 	responseMessage?: string | null;  // Optional: To store the API response message if needed

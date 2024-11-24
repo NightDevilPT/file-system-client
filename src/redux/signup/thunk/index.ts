@@ -10,17 +10,21 @@ export const signupUser = createAsyncThunk<
   { rejectValue: ApiError } // Rejected action type
 >(
   'signup/signupUser',
-  async (signupData: SignupPayload, thunkAPI) => {
+  async (signupData, thunkAPI) => {
     try {
-      const response = await apiService.post<any>('/users', signupData);
+      const response = await apiService.post<userResponseInterface>('/users', signupData);
 
       if (response.data.message === "User created successfully and email sent") {
         return response.data;
       } else {
-        return thunkAPI.rejectWithValue(response as ApiError);
+        return thunkAPI.rejectWithValue({
+          message: 'Unexpected response from the server.',
+        } as ApiError);
       }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error as ApiError);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({
+        message: error.message || 'Signup failed due to an unknown error.',
+      } as ApiError);
     }
   }
 );
