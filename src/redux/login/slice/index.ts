@@ -31,11 +31,11 @@ const loginSlice = createSlice({
     },
     setJwtAndId: (
       state,
-      action: PayloadAction<{ jwt: string; id?: string }>
+      action: PayloadAction<{ jwt: string; id: string }>
     ) => {
       state.data = {
         jwt: action.payload.jwt,
-        id: action.payload.id || undefined,
+        id: action.payload.id,
       };
     },
   },

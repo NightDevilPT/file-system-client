@@ -18,7 +18,7 @@ export interface LoginState {
   error: string | null;
   data: {
     jwt: string;
-    id: string | undefined;
+    id: string;
   } | null;
   responseMessage: string | null;
 }

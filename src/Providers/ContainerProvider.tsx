@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 import { Children } from "@/types/children.type";
 import FSSidebar from "@/components/ui/FS-Sidebar";
 import FSSearchLayout from "@/components/ui/FS-SearchLayout";
+import useInitializeAuth from "@/hooks/useInitialAuth";
 
 export const ContainerProvider = ({ children }: Children) => {
 	const pathname = usePathname()
 
 	const showSearchLayout = pathname !== "/" && pathname !== "/dashboard";
-
+	useInitializeAuth()
 	return (
 		<section className={`w-full h-[100vh] overflow-y-auto flex justify-between items-start`}>
 			<FSSidebar />
