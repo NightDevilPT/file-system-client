@@ -29,6 +29,15 @@ const loginSlice = createSlice({
         state.data = null;
       }
     },
+    setJwtAndId: (
+      state,
+      action: PayloadAction<{ jwt: string; id?: string }>
+    ) => {
+      state.data = {
+        jwt: action.payload.jwt,
+        id: action.payload.id || undefined,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -54,6 +63,6 @@ const loginSlice = createSlice({
   },
 });
 
-export const { resetLoginState } = loginSlice.actions;
+export const { resetLoginState, setJwtAndId } = loginSlice.actions;
 
 export default loginSlice.reducer;
