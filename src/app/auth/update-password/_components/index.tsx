@@ -11,6 +11,10 @@ import FSInput from '@/components/ui/FS-Input';
 import FSLogoFrame from '@/components/ui/FS-Logo';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux.hook';
 import { updatePasswordValidationSchema } from '@/schemas/update-password-form';
+import {
+  resetUpdatePasswordState,
+} from '@/redux/update-password/slice';
+import { ApiStatusEnum } from '@/interface/interface';
 import { updatePassword } from '@/redux/update-password/thunk';
 
 const UpdatePasswordForm = () => {
@@ -18,7 +22,9 @@ const UpdatePasswordForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const { status, error, responseMessage } = useAppSelector((state) => state.updatePassword);
+  const { status, error, responseMessage } = useAppSelector(
+    (state) => state.updatePassword
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -28,7 +34,9 @@ const UpdatePasswordForm = () => {
     onSubmit: async (values, { setSubmitting }) => {
       if (token) {
         try {
-          await dispatch(updatePassword({ password: values.password, token }));
+          await dispatch(
+            updatePassword({ password: values.password, token })
+          ).unwrap();
           setSubmitting(false);
         } catch (err) {
           setSubmitting(false);
@@ -41,22 +49,32 @@ const UpdatePasswordForm = () => {
   });
 
   useEffect(() => {
-    if (status === 'succeeded' && responseMessage) {
+    if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
       toast.success(responseMessage);
-      router.push('/auth/login'); // Redirect to login page after successful password update
+      router.push('/auth/login'); // Redirect to login page after success
     }
-    if (status === 'failed' && error) {
+    if (status === ApiStatusEnum.FAILED && error) {
       toast.error(error);
     }
-  }, [status, responseMessage, error]);
+
+    return () => {
+      // Reset state on component unmount
+      dispatch(resetUpdatePasswordState());
+    };
+  }, [status, responseMessage, error, router, dispatch]);
 
   return (
-    <div className={`w-96 h-auto p-5 rounded-md shadow-2xl bg-background grid-cols-1 gap-3 dark:border-2 dark:border-foreground-50`}>
+    <div
+      className={`w-96 h-auto p-5 rounded-md shadow-2xl bg-background grid-cols-1 gap-3 dark:border-2 dark:border-foreground-50`}
+    >
       <div className={`w-full h-auto flex justify-center items-center`}>
         <FSLogoFrame />
       </div>
       <Divider className={`mt-1`} />
-      <form className={`w-full h-auto mt-5 space-y-3`} onSubmit={formik.handleSubmit}>
+      <form
+        className={`w-full h-auto mt-5 space-y-3`}
+        onSubmit={formik.handleSubmit}
+      >
         <FSInput
           type="password"
           label="Password"
@@ -66,29 +84,32 @@ const UpdatePasswordForm = () => {
           required={true}
           value={formik.values.password}
           onChange={formik.handleChange}
-          error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
+          error={
+            formik.touched.password && formik.errors.password
+              ? formik.errors.password
+              : undefined
+          }
         />
         <Button
           type="submit"
-          className={`w-full `}
+          className={`w-full`}
           color="primary"
-          variant={"solid"}
-          isDisabled={formik.isSubmitting || status === "loading"}
+          variant={'solid'}
+          isDisabled={formik.isSubmitting || status === ApiStatusEnum.LOADING}
         >
-          {formik.isSubmitting || status === "loading" ? "Updating..." : "Update Password"}
+          {formik.isSubmitting || status === ApiStatusEnum.LOADING
+            ? 'Updating...'
+            : 'Update Password'}
         </Button>
       </form>
     </div>
   );
 };
 
-// A wrapper component to handle the suspense and fetch search parameters
-const UpdatePasswordWrapper = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <UpdatePasswordForm />
-    </Suspense>
-  );
-};
+const UpdatePasswordWrapper = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <UpdatePasswordForm />
+  </Suspense>
+);
 
 export default UpdatePasswordWrapper;

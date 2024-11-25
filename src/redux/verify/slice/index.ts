@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { VerifyState, VerifyResponseInterface } from '../interface'; // Adjust based on your interface structure
+import { VerifyState, VerifyResponseInterface } from '../interface';
 import { ApiError } from '@/services/api.service';
 import { verifyUser } from '../thunk';
+import { ApiStatusEnum } from '@/interface/interface';
 
 const initialState: VerifyState = {
-  status: 'idle',
+  status: ApiStatusEnum.IDLE,
   error: null,
   message: null,
 };
@@ -12,22 +13,30 @@ const initialState: VerifyState = {
 const verifySlice = createSlice({
   name: 'verify',
   initialState,
-  reducers: {},
+  reducers: {
+    resetVerifyState: (state) => {
+      state.status = ApiStatusEnum.IDLE;
+      state.error = null;
+      state.message = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(verifyUser.pending, (state) => {
-        state.status = 'loading';
+        state.status = ApiStatusEnum.LOADING;
         state.error = null;
       })
       .addCase(verifyUser.fulfilled, (state, action: PayloadAction<VerifyResponseInterface>) => {
-        state.status = 'succeeded';
-        state.message = action.payload.message; // Store the response message
+        state.status = ApiStatusEnum.SUCCEEDED;
+        state.message = action.payload.message;
       })
       .addCase(verifyUser.rejected, (state, action: PayloadAction<ApiError | undefined>) => {
-        state.status = 'failed';
+        state.status = ApiStatusEnum.FAILED;
         state.error = action.payload?.message || 'Verification failed';
       });
   },
 });
+
+export const { resetVerifyState } = verifySlice.actions;
 
 export default verifySlice.reducer;

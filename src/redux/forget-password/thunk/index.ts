@@ -5,22 +5,29 @@ import { ForgetPasswordResponse } from '../interface';
 const apiService = new ApiService();
 
 export const forgetPassword = createAsyncThunk<
-  ForgetPasswordResponse,  // Success response type
-  { email: string },       // Argument type
-  { rejectValue: ApiError } // Rejected action type
+  ForgetPasswordResponse,
+  { email: string },
+  { rejectValue: ApiError }
 >(
   'forgetPassword/forgetPassword',
   async (forgetData, thunkAPI) => {
     try {
-      const response = await apiService.put<any>('/users/forget-password', forgetData);
+      const response = await apiService.put<ForgetPasswordResponse>(
+        '/users/forget-password',
+        forgetData
+      );
 
-      if (response.data.message === "Reset password email sent successfully") {
+      if (response.data.message === 'Reset password email sent successfully') {
         return response.data;
       } else {
-        return thunkAPI.rejectWithValue(response as ApiError);
+        return thunkAPI.rejectWithValue({
+          message: 'Unexpected response from the server.',
+        } as ApiError);
       }
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error as ApiError);
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({
+        message: error.message || 'An error occurred.',
+      } as ApiError);
     }
   }
 );

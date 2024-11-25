@@ -1,9 +1,11 @@
+import { ApiStatusEnum } from '@/interface/interface';
+
 export interface VerifyResponseInterface {
-	message: string;
+  message: string;
 }
 
 export interface VerifyState {
-	status: "idle" | "loading" | "succeeded" | "failed";
-	error: string | null;
-	message: string | null;
+  status: ApiStatusEnum;
+  error: string | null;
+  message: string | null;
 }

@@ -10,14 +10,17 @@ import { Divider } from '@nextui-org/divider';
 import FSInput from '@/components/ui/FS-Input';
 import FSLogoFrame from '@/components/ui/FS-Logo';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux.hook';
-import { forgetPassword } from '@/redux/forget-password/thunk';
+import { resetForgetPasswordState } from '@/redux/forget-password/slice';
 import { forgetPasswordValidationSchema } from '@/schemas/forget-password-form';
-
+import { ApiStatusEnum } from '@/interface/interface';
+import { forgetPassword } from '@/redux/forget-password/thunk';
 
 const ForgetPasswordForm = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { status, error, responseMessage } = useAppSelector((state) => state.forgetPassword);
+  const { status, error, responseMessage } = useAppSelector(
+    (state) => state.forgetPassword
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -35,14 +38,19 @@ const ForgetPasswordForm = () => {
   });
 
   useEffect(() => {
-    if (status === 'succeeded' && responseMessage) {
+    if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
       toast.success(responseMessage);
-      router.push('/auth/login'); // Redirect to login page after successful password reset request
+      router.push('/auth/login'); // Redirect to login page after success
     }
-    if (status === 'failed' && error) {
+    if (status === ApiStatusEnum.FAILED && error) {
       toast.error(error);
     }
-  }, [status, responseMessage, error]);
+
+    return () => {
+      // Reset state on component unmount
+      dispatch(resetForgetPasswordState());
+    };
+  }, [status, responseMessage, error, router, dispatch]);
 
   return (
     <div
@@ -52,10 +60,15 @@ const ForgetPasswordForm = () => {
         <FSLogoFrame />
       </div>
       <Divider className={`mt-1`} />
-      <span className={`w-full justify-center items-center flex mt-2 h-auto text-xs text-foreground-500`}>
-        We will send you a link to reset password.
+      <span
+        className={`w-full justify-center items-center flex mt-2 h-auto text-xs text-foreground-500`}
+      >
+        We will send you a link to reset your password.
       </span>
-      <form className={`w-full h-auto mt-2 space-y-3`} onSubmit={formik.handleSubmit}>
+      <form
+        className={`w-full h-auto mt-2 space-y-3`}
+        onSubmit={formik.handleSubmit}
+      >
         <FSInput
           type="email"
           label="Email"
@@ -65,16 +78,22 @@ const ForgetPasswordForm = () => {
           required={true}
           value={formik.values.email}
           onChange={formik.handleChange}
-          error={formik.touched.email && formik.errors.email ? formik.errors.email : undefined}
+          error={
+            formik.touched.email && formik.errors.email
+              ? formik.errors.email
+              : undefined
+          }
         />
         <Button
           type="submit"
-          className={`w-full `}
+          className={`w-full`}
           color="primary"
-          variant={"solid"}
-          isDisabled={formik.isSubmitting || status === "loading"}
+          variant={'solid'}
+          isDisabled={formik.isSubmitting || status === ApiStatusEnum.LOADING}
         >
-          {formik.isSubmitting || status === "loading" ? "Sending..." : "Forget Password"}
+          {formik.isSubmitting || status === ApiStatusEnum.LOADING
+            ? 'Sending...'
+            : 'Forget Password'}
         </Button>
       </form>
     </div>

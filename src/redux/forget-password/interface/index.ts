@@ -1,9 +1,11 @@
+import { ApiStatusEnum } from '@/interface/interface';
+
 export interface ForgetPasswordResponse {
-	message: string;
+  message: string;
 }
 
 export interface ForgetPasswordState {
-	status: "idle" | "loading" | "succeeded" | "failed";
-	error: string | null;
-	responseMessage: string | null;
+  status: ApiStatusEnum;
+  error: string | null;
+  responseMessage: string | null;
 }
