@@ -16,7 +16,7 @@ export interface ApiError {
 export class ApiService {
     private api: AxiosInstance;
 
-    constructor(tokenRetriever: () => string | null = () => localStorage.getItem('token')) {
+    constructor(tokenRetriever: () => string | null = () => localStorage.getItem('jwt')) {
         this.api = axios.create({
             baseURL: env.BACKEND_URL,
             headers: {

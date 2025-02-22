@@ -21,14 +21,14 @@ const FSStorageInformation = () => {
 					style={{ width: `${usedStoragePercentage}%` }} // Set the width based on the used storage percentage
 				></div>
 			</div>
-			<div className={`w-full h-auto flex justify-start items-center gap-3 font-sans text-xs`}>
+			<div className={`w-full h-auto flex justify-start items-center gap-1 font-sans`}>
 				<div className={`flex justify-start items-center gap-1`}>
 					<span className={`w-3 h-3 rounded ${progressColor}`} />
-					<span>Used {usedStorage}MB</span>
+					<span className="text-xs">Used {usedStorage}MB</span>
 				</div>
 				<div className={`flex justify-start items-center gap-1`}>
 					<span className={`w-3 h-3 rounded bg-divider`} />
-					<span>Available {totalStorage-usedStorage}MB</span>
+					<span className="text-xs">Available {totalStorage-usedStorage}MB</span>
 				</div>
 			</div>
 		</div>

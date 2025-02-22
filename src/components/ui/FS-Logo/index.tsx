@@ -6,7 +6,7 @@ import logo from '../../../assets/logo.png'
 const FSLogoFrame = () => {
   return (
 	<div className={`w-auto h-auto flex justify-center items-center gap-3`}>
-		<div className={`w-16 h-16`}>
+		<div className={`w-14 h-14`}>
 			<Image src={logo.src} className='w-full h-full object-cover' />
 		</div>
 		<div className={`w-auto h-auto grid-cols-1`}>

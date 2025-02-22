@@ -14,7 +14,7 @@ export const store = configureStore({
     verify: verifyReducer,
     login:loginReducer,
     forgetPassword:forgetPasswordReducer,
-    updatePassword:updatePasswordReducer
+    updatePassword:updatePasswordReducer,
   },
 });
 

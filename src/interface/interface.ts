@@ -17,7 +17,10 @@ export enum ApiStatusEnum {
 	FAILED = "failed",
 }
 
-export type FolderEnum = "FOLDER" | "FILE";
+export enum FolderEnum {
+	FOLDER='FOLDER',
+	FILE='FILE'
+};
 export type PrivateEnum = "PUBLIC" | "PRIVATE";
 
 export interface Breadcrumb {

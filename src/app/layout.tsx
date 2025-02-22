@@ -1,6 +1,6 @@
 import "./globals.css";
-import 'react-toastify/dist/ReactToastify.css';
 import type { Metadata } from "next";
+import 'react-toastify/dist/ReactToastify.css';
 import { CombineProvider } from "@/Providers/CombineProviders";
 
 export const metadata: Metadata = {

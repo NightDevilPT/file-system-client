@@ -31,7 +31,7 @@ const FSSidebar = () => {
     };
 	return (
 		<div
-			className={`w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
+			className={`w-64 max-2xl:w-56 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
 		>
 			<div
 				className={`w-full h-auto pt-5 pb-2 flex justify-start items-center`}
