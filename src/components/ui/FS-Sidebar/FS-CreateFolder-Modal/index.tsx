@@ -1,19 +1,24 @@
-import icons, { IconType } from "@/utils/icons";
+"use client"; // ✅ Ensure it's a Client Component
+
 import { Button } from "@nextui-org/button";
+import icons, { IconType } from "@/utils/icons";
+import { useSearchParams } from "next/navigation";
 import { useDisclosure } from "@nextui-org/react";
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import FSModal from "../../FS-Modal";
 import FSInput from "../../FS-Input";
-import { useParams, useSearchParams } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { FolderEnum } from "@/interface/interface";
 
-const FSCreateFolderModal = () => {
+const FSCreateFolderModalContent = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const [folderName, setFolderName] = useState<string>("");
-	const searchParam = useSearchParams();
-	const params = useParams<{ folderId: string }>();
+
+	const searchParam = useSearchParams(); // ✅ Ensure this is inside Suspense
+	const params = useSearchParams();
+	console.log(params.get("folderId"), "PAEANSJHGSHJGJS");
+
 	const dispatch = useDispatch<AppDispatch>();
 
 	const handleFolderNameChange = (value: any) => {
@@ -21,8 +26,10 @@ const FSCreateFolderModal = () => {
 	};
 
 	const handleCreateFolder = async () => {
-		console.log("Creating folder",folderName);
+		console.log("Creating folder", folderName);
 	};
+
+	const { status } = useSelector((state: RootState) => state.updatePassword); // ✅ Added missing `status`
 
 	return (
 		<>
@@ -73,7 +80,7 @@ const FSCreateFolderModal = () => {
 							variant="solid"
 							color="primary"
 							onPress={handleCreateFolder}
-							isLoading={status === "loading"} // Show loading indicator
+							isLoading={status === "loading"} // ✅ Fixed status issue
 						>
 							Create
 						</Button>
@@ -83,5 +90,12 @@ const FSCreateFolderModal = () => {
 		</>
 	);
 };
+
+// ✅ Wrap in Suspense to fix `useSearchParams()` issue
+const FSCreateFolderModal = () => (
+	<Suspense fallback={<div>Loading Folder Modal...</div>}>
+		<FSCreateFolderModalContent />
+	</Suspense>
+);
 
 export default FSCreateFolderModal;

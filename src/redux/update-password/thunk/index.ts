@@ -1,32 +1,27 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiService, ApiError } from '@/services/api.service';
-import { UpdatePasswordResponse, UpdatePasswordPayload } from '../interface';
-
-const apiService = new ApiService();
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { put } from "@/services/api.service"; // ✅ Use named export
+import { UpdatePasswordResponse, UpdatePasswordPayload } from "../interface";
+import { ApiError } from "@/types/api.type"; // ✅ Correct error typing
 
 export const updatePassword = createAsyncThunk<
   UpdatePasswordResponse,
   UpdatePasswordPayload,
   { rejectValue: ApiError }
 >(
-  'updatePassword/updatePassword',
+  "updatePassword/updatePassword",
   async ({ password, token }, thunkAPI) => {
     try {
-      const response = await apiService.put<UpdatePasswordResponse>(
+      const response = await put<UpdatePasswordResponse>(
         `/users/update-password?token=${token}`,
         { password }
       );
 
-      if (response.data.message === 'Password updated successfully') {
-        return response.data;
-      } else {
-        return thunkAPI.rejectWithValue({
-          message: 'Unexpected response from the server.',
-        } as ApiError);
-      }
+      return response.data; // ✅ API response is already formatted by interceptor
     } catch (error: any) {
       return thunkAPI.rejectWithValue({
-        message: error.message || 'An error occurred.',
+        status: error.status || 500,
+        message: error.message || "Failed to update password.",
+        data: error.data || null,
       } as ApiError);
     }
   }

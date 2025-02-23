@@ -46,14 +46,14 @@ const FSUsernav = () => {
 					Profile
 				</DropdownItem>
 				<DropdownItem
-					key="profile"
+					key="edit"
 					startContent={icons(IconType.EDIT)}
 					color="primary"
 				>
 					Edit
 				</DropdownItem>
 				<DropdownItem
-					key="logout"
+					key="appearance"
 					color="primary"
 					startContent={icons(theme===ThemeType.dark?IconType.LIGHT:IconType.DARK)}
 					onClick={toggleTheme}

@@ -9,13 +9,13 @@ import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 
 import icons, { IconType } from "@/utils/icons";
-import { resetLoginState } from "@/redux/login/slice";
+import { loginUser } from "@/redux/login/thunk";
 import FSInput from "@/components/ui/FS-Input";
+import { resetLoginState } from "@/redux/login/slice";
 import FSLogoFrame from "@/components/ui/FS-Logo";
+import { ApiStatusEnum } from "@/interface/interface";
 import { loginValidationSchema } from "@/schemas/login-form";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { ApiStatusEnum } from "@/interface/interface";
-import { loginUser } from "@/redux/login/thunk";
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
@@ -41,12 +41,8 @@ const LoginForm = () => {
 	});
 
 	useEffect(() => {
-		if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
+		if (status === ApiStatusEnum.SUCCEEDED) {
 			toast.success(responseMessage);
-			if (data) {
-				localStorage.setItem("jwt", data.jwt);
-				localStorage.setItem("userId", data.id);
-			}
 			router.push("/");
 			dispatch(resetLoginState());
 		}

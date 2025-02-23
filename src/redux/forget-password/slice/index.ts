@@ -1,8 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ApiError } from '@/services/api.service';
-import { forgetPassword } from '../thunk';
-import { ForgetPasswordState } from '../interface';
-import { ApiStatusEnum } from '@/interface/interface';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { forgetPassword } from "../thunk";
+import { ForgetPasswordState } from "../interface";
+import { ApiStatusEnum } from "@/interface/interface";
+import { ApiError } from "@/types/api.type"; // ✅ Import ApiError type
+import { ForgetPasswordResponse } from "../interface"; // ✅ Import the correct response type
 
 const initialState: ForgetPasswordState = {
   status: ApiStatusEnum.IDLE,
@@ -11,7 +12,7 @@ const initialState: ForgetPasswordState = {
 };
 
 const forgetPasswordSlice = createSlice({
-  name: 'forgetPassword',
+  name: "forgetPassword",
   initialState,
   reducers: {
     resetForgetPasswordState: (state) => {
@@ -25,22 +26,22 @@ const forgetPasswordSlice = createSlice({
       .addCase(forgetPassword.pending, (state) => {
         state.status = ApiStatusEnum.LOADING;
         state.error = null;
+        state.responseMessage = null;
       })
       .addCase(
         forgetPassword.fulfilled,
-        (state, action: PayloadAction<{ message: string }>) => {
+        (state, action: PayloadAction<ForgetPasswordResponse>) => {
           state.status = ApiStatusEnum.SUCCEEDED;
-          state.responseMessage = action.payload.message;
+          state.responseMessage = action.payload.message; // ✅ Ensure message extraction is correct
+          state.error = null; // ✅ Clear error upon success
         }
       )
-      .addCase(
-        forgetPassword.rejected,
-        (state, action: PayloadAction<ApiError | undefined>) => {
-          state.status = ApiStatusEnum.FAILED;
-          state.error =
-            action.payload?.message || 'Failed to send reset password email';
-        }
-      );
+      .addCase(forgetPassword.rejected, (state, action) => {
+        state.status = ApiStatusEnum.FAILED;
+        state.error =
+          action.payload?.message || "Failed to send reset password email"; // ✅ Correct error handling
+        state.responseMessage = null; // ✅ Clear previous response message
+      });
   },
 });
 

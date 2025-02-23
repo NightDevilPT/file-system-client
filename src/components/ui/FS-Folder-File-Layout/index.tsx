@@ -1,32 +1,32 @@
-"use client";
+"use client"; // ✅ Ensure it's a Client Component
 
 import { Divider } from "@nextui-org/divider";
 import { Pagination } from "@nextui-org/react";
-import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect, Suspense } from "react";
 
-import icons, { IconType } from "@/utils/icons";
 import FSGridView from "./FS-Grid-View";
 import FSTableView from "./FS-Table-View";
+import icons, { IconType } from "@/utils/icons";
 import generateDummyData from "@/utils/get-dummy";
 import FileFolderLoader from "@/common/FileFolderLoader";
 import { FileFolder, FSViewEnum } from "@/interface/interface";
-import { useParams } from "next/navigation";
 
 export interface FSFolderFileLayoutProps {
 	title: string;
 	showLayoutChange?: boolean;
-	defaultView?:FSViewEnum
+	defaultView?: FSViewEnum;
 }
 
-const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
+const FSFolderFileLayoutContent: React.FC<FSFolderFileLayoutProps> = ({
 	title,
 	showLayoutChange = true,
-	defaultView=FSViewEnum.GRID
+	defaultView = FSViewEnum.GRID,
 }) => {
 	const [view, setView] = useState<FSViewEnum>(defaultView);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [data, setData] = useState<FileFolder[]>([]);
-	const params = useParams();
+	const params = useSearchParams(); // ✅ Ensure it's inside Suspense
 
 	useEffect(() => {
 		setLoading(true);
@@ -83,5 +83,12 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 		</div>
 	);
 };
+
+// ✅ Wrap in Suspense to fix `useSearchParams()` issue
+const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = (props) => (
+	<Suspense fallback={<div>Loading Folders & Files...</div>}>
+		<FSFolderFileLayoutContent {...props} />
+	</Suspense>
+);
 
 export default FSFolderFileLayout;

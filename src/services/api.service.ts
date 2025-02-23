@@ -1,139 +1,119 @@
-import { env } from '@/config/env';
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from "axios";
+import { env } from "@/config/env";
+import { ApiError, ApiResponse } from "@/types/api.type";
 
-export interface ApiResponse<T = any> {
-    status: number;
-    message: string;
-    data: T;
+export const apiRoutes = {
+	users : '/users',
 }
 
-export interface ApiError {
-    status: number;
-    message: string;
-    data?: any;
-}
+// ✅ Create Axios Instance
+const api: AxiosInstance = axios.create({
+	baseURL: env.BACKEND_URL,
+	headers: { "Content-Type": "application/json" },
+	timeout: 10000, // 10s timeout
+	withCredentials: true, // ✅ Allow cookies for authentication
+});
 
-export class ApiService {
-    private api: AxiosInstance;
+// ✅ Debugging Request Interceptor
+api.interceptors.request.use(
+	(config) => {
+	  console.log("🚀 Axios Request:", config);
+	  return config;
+	},
+	(error) => {
+	  console.error("❌ Axios Request Error:", error);
+	  return Promise.reject(error);
+	}
+  );
 
-    constructor(tokenRetriever: () => string | null = () => localStorage.getItem('jwt')) {
-        this.api = axios.create({
-            baseURL: env.BACKEND_URL,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            timeout: 10000, // Set a default timeout
-        });
+// ✅ Response Interceptor (Fixed)
+api.interceptors.response.use(
+	(response: AxiosResponse) => {
+		const { status, data } = response;
 
-        // Add request interceptor
-        this.api.interceptors.request.use(
-            config => {
-                const token = tokenRetriever();
-                if (token) {
-                    config.headers['Authorization'] = `Bearer ${token}`;
-                }
-                return config;
-            },
-            error => Promise.reject(error)
-        );
+		// ✅ Ensure response follows expected format
+		const formattedResponse: ApiResponse<any> = {
+			status: "success",
+			statusCode: status,
+			data: data?.data ?? data, // Extract nested `data` if present
+			message: data?.message ?? "Success",
+		};
 
-        // Add response interceptor
-        this.api.interceptors.response.use(
-            response => response,
-            error => {
-                const axiosError = error as AxiosError<{ message?: string }>;
-                if (axiosError.response) {
-                    return Promise.reject<ApiError>({
-                        status: axiosError.response.status,
-                        message: axiosError.response.data?.message || axiosError.message,
-                        data: axiosError.response.data,
-                    });
-                } else {
-                    return Promise.reject<ApiError>({
-                        status: 500,
-                        message: axiosError.message,
-                    });
-                }
-            }
-        );
-    }
+		// ✅ Attach metadata if available
+		if (data?.meta || data?.metadata) {
+			formattedResponse.meta = {
+				totalCount: data?.meta?.totalCount ?? 0,
+				totalPages: data?.meta?.totalPages ?? 0,
+				nextPage: data?.meta?.nextPage ?? null,
+				previousPage: data?.meta?.previousPage ?? null,
+				...data?.meta,
+			};
+		}
 
-    async get<T = any>(url: string, params: object = {}): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.get(url, { params });
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+		// ✅ Return transformed data but maintain `AxiosResponse` structure
+		return { ...response, data: formattedResponse };
+	},
+	(error: AxiosError<{ message?: string }>) => {
+		if (error.response) {
+			return Promise.reject<ApiError>({
+				status: error.response.status,
+				message: error.response.data?.message || error.message,
+				data: error.response.data || null,
+			});
+		}
+		return Promise.reject<ApiError>({
+			status: 500,
+			message: error.message || "Internal Server Error",
+			data: null,
+		});
+	}
+);
 
-    async post<T = any>(url: string, data: any): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.post(url, data);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// ✅ Generic Request Handler with Proper Typing
+const handleRequest = async <T>(
+	request: Promise<AxiosResponse<ApiResponse<T>>>
+): Promise<ApiResponse<T>> => {
+	try {
+		const response = await request;
+		console.log(response,'CONSLINGREPONSE');
+		return response.data; // ✅ Extract and return only `ApiResponse<T>`
+	} catch (error: any) {
+		return Promise.reject({
+			status: error.status || 500,
+			message: error.message || "An unexpected error occurred",
+			data: null,
+		});
+	}
+};
 
-    async put<T = any>(url: string, data?: any): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.put(url, data);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// ✅ API Methods with Proper Typing & Error Handling
+export const get = async <T = any>(
+	url: string,
+	params: object = {}
+): Promise<ApiResponse<T>> => handleRequest<T>(api.get(url, { params }));
 
-    async delete<T = any>(url: string): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.delete(url);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+export const post = async <T = any>(
+	url: string,
+	data: any
+): Promise<ApiResponse<T>> => handleRequest<T>(api.post(url, data));
 
-    async upload<T = any>(url: string, formData: FormData): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.post(url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+export const put = async <T = any>(
+	url: string,
+	data?: any
+): Promise<ApiResponse<T>> => handleRequest<T>(api.put(url, data));
 
-    private logError(error: any): void {
-        // Implement your logging logic here, such as sending the error to a logging service
-        console.error('API Error:', error);
-    }
-}
+export const del = async <T = any>(url: string): Promise<ApiResponse<T>> =>
+	handleRequest<T>(api.delete(url));
+
+export const upload = async <T = any>(
+	url: string,
+	formData: FormData
+): Promise<ApiResponse<T>> =>
+	handleRequest<T>(
+		api.post(url, formData, {
+			headers: { "Content-Type": "multipart/form-data" },
+		})
+	);
+
+// ✅ Export Axios instance for direct access if needed
+export default api;

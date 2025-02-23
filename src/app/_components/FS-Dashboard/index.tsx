@@ -1,10 +1,13 @@
+"use client";
+
 import React from "react";
 import { Divider } from "@nextui-org/divider";
-import FSDashboardCard, { FSDashboardCardProps } from "../FS-Dashboard-Card";
-import FSEChart from "@/components/ui/FS-Charts";
-import FSFavouriteLayout from "@/components/ui/FS-Favorite-Layout";
-import { FSViewEnum } from "@/interface/interface";
+
 import FSRecent from "../FS-Recent";
+import { FSViewEnum } from "@/interface/interface";
+import FSEChart from "@/components/ui/FS-Charts";
+import FSDashboardCard, { FSDashboardCardProps } from "../FS-Dashboard-Card";
+import FSFavouriteLayout from "@/components/ui/FS-Favorite-Layout";
 
 const dummyData: FSDashboardCardProps[] = [
 	{
