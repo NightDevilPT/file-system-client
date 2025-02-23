@@ -10,10 +10,8 @@ import { Divider } from "@nextui-org/divider";
 
 import icons, { IconType } from "@/utils/icons";
 import FSInput from "@/components/ui/FS-Input";
-import { signupUser } from "@/redux/signup/thunk";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
-import { resetSignupState } from "@/redux/signup/slice";
 import { signupValidationSchema } from "@/schemas/signup-form";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 
@@ -21,9 +19,6 @@ import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 const SignupForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
-	const { status, error, responseMessage } = useAppSelector(
-		(state) => state.signup
-	);
 
 	const formik = useFormik({
 		initialValues: {
@@ -34,17 +29,7 @@ const SignupForm = () => {
 		validationSchema: signupValidationSchema,
 		onSubmit: async (values, { setSubmitting }) => {
 			try {
-				const resultAction = await dispatch(signupUser(values));
-
-				if (signupUser.fulfilled.match(resultAction)) {
-					toast.success(resultAction.payload.message);
-					router.push("/auth/login");
-					dispatch(resetSignupState()); // Reset the state after navigating
-				} else {
-					toast.error(
-						resultAction.payload?.message || "Signup failed."
-					);
-				}
+				
 			} catch (err) {
 				toast.error("An unexpected error occurred. Please try again.");
 			} finally {
@@ -52,12 +37,6 @@ const SignupForm = () => {
 			}
 		},
 	});
-
-	useEffect(() => {
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-	}, [status, error]);
 
 	return (
 		<div className="w-96 h-auto p-5 rounded-md shadow-2xl bg-background grid-cols-1 gap-3 dark:border-2 dark:border-foreground-50">

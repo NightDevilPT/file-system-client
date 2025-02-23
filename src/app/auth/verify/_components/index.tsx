@@ -6,37 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import icons, { IconType } from "@/utils/icons";
-import { verifyUser } from "@/redux/verify/thunk";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
-import { resetVerifyState } from "@/redux/verify/slice";
 import { AppDispatch, RootState } from "@/redux/store";
 
 const VerifyPage = () => {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 	const params = useSearchParams();
-
-	const { status, message, error } = useSelector(
-		(state: RootState) => state.verify
-	);
-
-	useEffect(() => {
-		const token = params.get("token");
-		if (token) {
-			dispatch(verifyUser(token as string))
-				.unwrap()
-				.catch((err) => console.error("Verification failed:", err));
-		}
-	}, [params, dispatch]);
-
-	useEffect(() => {
-		console.log(status, "STATUS");
-		if (status === ApiStatusEnum.SUCCEEDED) {
-			router.replace("/auth/login");
-			dispatch(resetVerifyState()); // ✅ Reset state on successful verification
-		}
-	}, [status, router, dispatch]);
 
 	return (
 		<React.Fragment>
@@ -56,7 +33,7 @@ const VerifyPage = () => {
 						<div className="text-success">
 							{icons(IconType.SUCCESS)}
 						</div>
-						<span>{message || "Verified Successfully"}</span>{" "}
+						<span>{"Verified Successfully"}</span>{" "}
 						{/* ✅ Show API success message */}
 					</div>
 				)}
@@ -66,7 +43,7 @@ const VerifyPage = () => {
 							{icons(IconType.WARNING)}
 						</div>
 						<span>
-							{error || "Verification failed. Please try again."}
+							{"Verification failed. Please try again."}
 						</span>{" "}
 						{/* ✅ Show API error */}
 					</div>

@@ -10,53 +10,17 @@ import { Divider } from "@nextui-org/divider";
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
-import { forgetPassword } from "@/redux/forget-password/thunk";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { resetForgetPasswordState } from "@/redux/forget-password/slice";
 import { forgetPasswordValidationSchema } from "@/schemas/forget-password-form";
 
 const ForgetPasswordForm = () => {
-	const dispatch = useAppDispatch();
-	const router = useRouter();
-	const { status, error, responseMessage } = useAppSelector(
-		(state) => state.forgetPassword
-	);
-
 	const formik = useFormik({
 		initialValues: {
 			email: "",
 		},
 		validationSchema: forgetPasswordValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-			try {
-				// ✅ Properly handle thunk result
-				const resultAction = await dispatch(
-					forgetPassword(values)
-				).unwrap();
-				toast.success(resultAction.message);
-
-				// ✅ Navigate to login page after success
-				router.replace("/auth/login");
-			} catch (err: any) {
-				toast.error(
-					err.message || "Failed to send reset password email"
-				);
-			} finally {
-				setSubmitting(false);
-			}
-		},
+		onSubmit: async (values, { setSubmitting }) => {},
 	});
-
-	useEffect(() => {
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-
-		return () => {
-			// ✅ Reset state only when the component unmounts
-			dispatch(resetForgetPasswordState());
-		};
-	}, [status, error, dispatch]);
 
 	return (
 		<div

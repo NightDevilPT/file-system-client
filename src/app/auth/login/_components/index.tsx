@@ -1,59 +1,26 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 
 import icons, { IconType } from "@/utils/icons";
-import { loginUser } from "@/redux/login/thunk";
 import FSInput from "@/components/ui/FS-Input";
-import { resetLoginState } from "@/redux/login/slice";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
 import { loginValidationSchema } from "@/schemas/login-form";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 
 const LoginForm = () => {
-	const dispatch = useAppDispatch();
-	const router = useRouter();
-	const { status, error, responseMessage, data } = useAppSelector(
-		(state) => state.login
-	);
-
 	const formik = useFormik({
 		initialValues: {
 			email: "",
 			password: "",
 		},
 		validationSchema: loginValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-			try {
-				await dispatch(loginUser(values)).unwrap();
-				setSubmitting(false);
-			} catch (err) {
-				setSubmitting(false);
-			}
-		},
+		onSubmit: async (values, { setSubmitting }) => {},
 	});
-
-	useEffect(() => {
-		if (status === ApiStatusEnum.SUCCEEDED) {
-			toast.success(responseMessage);
-			router.push("/");
-			dispatch(resetLoginState());
-		}
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-
-		return () => {
-			//   dispatch(resetLoginState());
-		};
-	}, [status, responseMessage, error, data, dispatch, router]);
 
 	return (
 		<div

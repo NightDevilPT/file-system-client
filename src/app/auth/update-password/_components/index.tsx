@@ -10,9 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
-import { updatePassword } from "@/redux/update-password/thunk";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { resetUpdatePasswordState } from "@/redux/update-password/slice";
 import { updatePasswordValidationSchema } from "@/schemas/update-password-form";
 
 const UpdatePasswordForm = () => {
@@ -36,30 +34,8 @@ const UpdatePasswordForm = () => {
 				setSubmitting(false);
 				return;
 			}
-
-			try {
-				const resultAction = await dispatch(
-					updatePassword({ password: values.password, token })
-				).unwrap();
-				toast.success(resultAction.message);
-				router.replace("/auth/login"); // ✅ Use replace to avoid back navigation issues
-			} catch (err: any) {
-				toast.error(err.message || "Failed to update password");
-			} finally {
-				setSubmitting(false);
-			}
 		},
 	});
-
-	useEffect(() => {
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-
-		return () => {
-			dispatch(resetUpdatePasswordState()); // ✅ Reset state only when the component unmounts
-		};
-	}, [status, error, dispatch]);
 
 	return (
 		<div
