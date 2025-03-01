@@ -1,4 +1,4 @@
-import { FileFolder, File, Folder, FileTypeEnum, PrivateEnum, Breadcrumb } from "@/interface/interface";
+import { FileFolder, File, Folder, FileTypeEnum, PrivateEnum, Breadcrumb, FolderEnum } from "@/interface/interface";
 
 function generateDummyData(count: number): FileFolder[] {
     const privateEnumValues: PrivateEnum[] = ["PUBLIC", "PRIVATE"];
@@ -16,7 +16,7 @@ function generateDummyData(count: number): FileFolder[] {
         Array.from({ length: count }, (_, i) => ({
             id: `folder-${i + 1}`,
             name: `Folder ${i + 1}`,
-            type: "FOLDER",
+            type: 'FOLDER' as FolderEnum,
             isTrash: Math.random() < 0.5,
             isAccessable: getRandomEnumValue(privateEnumValues),
             userIds: [`user${i + 1}`],

@@ -11,18 +11,13 @@ import { useRouter } from "next/navigation";
 
 import icons, { IconType } from "@/utils/icons";
 import FSInput from "@/components/ui/FS-Input";
-import { signupUser } from "@/redux/signup/thunk";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 import { signupValidationSchema } from "@/schemas/signup-form";
 import { ApiStatusEnum } from "@/interface/interface";
-import { resetSignupState } from "@/redux/signup/slice";
 
 const SignupForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
-	const { status, error, responseMessage } = useAppSelector(
-		(state) => state.signup
-	);
 
 	const formik = useFormik({
 		initialValues: {
@@ -32,25 +27,11 @@ const SignupForm = () => {
 		},
 		validationSchema: signupValidationSchema,
 		onSubmit: async (values, { setSubmitting }) => {
-			try {
-				await dispatch(signupUser(values));
-				setSubmitting(false);
-			} catch (err) {
-				setSubmitting(false);
-			}
 		},
 	});
 
 	useEffect(() => {
-		if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
-			toast.success(responseMessage);
-			router.push("/auth/login");
-			dispatch(resetSignupState()); // Reset the state after navigating
-		}
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-	}, [status, responseMessage, error, router, dispatch]);
+	}, [router, dispatch]);
 
 	return (
 		<div

@@ -9,20 +9,15 @@ import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 
 import icons, { IconType } from "@/utils/icons";
-import { resetLoginState } from "@/redux/login/slice";
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { loginValidationSchema } from "@/schemas/login-form";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 import { ApiStatusEnum } from "@/interface/interface";
-import { loginUser } from "@/redux/login/thunk";
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
-	const { status, error, responseMessage, data } = useAppSelector(
-		(state) => state.login
-	);
 
 	const formik = useFormik({
 		initialValues: {
@@ -30,34 +25,8 @@ const LoginForm = () => {
 			password: "",
 		},
 		validationSchema: loginValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-			try {
-				await dispatch(loginUser(values)).unwrap();
-				setSubmitting(false);
-			} catch (err) {
-				setSubmitting(false);
-			}
-		},
+		onSubmit: async (values, { setSubmitting }) => {},
 	});
-
-	useEffect(() => {
-		if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
-			toast.success(responseMessage);
-			if (data) {
-				localStorage.setItem("jwt", data.jwt);
-				localStorage.setItem("userId", data.id);
-			}
-			router.push("/");
-			dispatch(resetLoginState());
-		}
-		if (status === ApiStatusEnum.FAILED && error) {
-			toast.error(error);
-		}
-
-		return () => {
-			//   dispatch(resetLoginState());
-		};
-	}, [status, responseMessage, error, data, dispatch, router]);
 
 	return (
 		<div
