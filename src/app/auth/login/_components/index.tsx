@@ -9,24 +9,46 @@ import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 
 import icons, { IconType } from "@/utils/icons";
+import { loginUser } from "@/redux/login/thunk";
 import FSInput from "@/components/ui/FS-Input";
+import { resetLoginState } from "@/redux/login/slice";
 import FSLogoFrame from "@/components/ui/FS-Logo";
+import { ApiStatusEnum } from "@/interface/interface";
 import { loginValidationSchema } from "@/schemas/login-form";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { ApiStatusEnum } from "@/interface/interface";
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
+	// Get login state from Redux
+	const { status, error, responseMessage } = useAppSelector(
+		(state) => state.login
+	);
+
+	// Formik setup
 	const formik = useFormik({
 		initialValues: {
 			email: "",
 			password: "",
 		},
 		validationSchema: loginValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {},
+		onSubmit: async (values, { setSubmitting }) => {
+			dispatch(loginUser(values));
+			setSubmitting(false);
+		},
 	});
+
+	// Handle login status updates
+	useEffect(() => {
+		if (status === ApiStatusEnum.SUCCEEDED) {
+			toast.success(responseMessage || "Login successful!");
+			// dispatch(resetLoginState());
+			router.push("/"); // Redirect to dashboard
+		} else if (status === ApiStatusEnum.FAILED && error) {
+			toast.error(error);
+		}
+	}, [status, error, responseMessage, router, dispatch]);
 
 	return (
 		<div
@@ -49,11 +71,7 @@ const LoginForm = () => {
 					required={true}
 					value={formik.values.email}
 					onChange={formik.handleChange}
-					error={
-						formik.touched.email && formik.errors.email
-							? formik.errors.email
-							: undefined
-					}
+					error={formik.errors.email}
 				/>
 				<FSInput
 					type="password"
@@ -64,37 +82,25 @@ const LoginForm = () => {
 					required={true}
 					value={formik.values.password}
 					onChange={formik.handleChange}
-					error={
-						formik.touched.password && formik.errors.password
-							? formik.errors.password
-							: undefined
-					}
+					error={formik.errors.password}
 				/>
-				<div
-					className={`w-full h-auto mt-2 flex justify-end items-center text-xs gap-2`}
-				>
-					<Link
-						className="text-primary-500 font-bold underline"
-						href={"/auth/forget-password"}
-					>
-						Forget Password
-					</Link>
-				</div>
+
 				<Button
 					aria-label="Login"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					// isDisabled={
-					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
-					// }
+					isDisabled={
+						formik.isSubmitting || status === ApiStatusEnum.LOADING
+					}
 				>
-					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Logging in..."
-						: "Log In"} */}
+						: "Log In"}
 				</Button>
 			</form>
+
 			<div
 				className={`w-full flex justify-center items-center gap-2 my-3`}
 			>
@@ -104,16 +110,16 @@ const LoginForm = () => {
 				</span>
 				<Divider className={` flex-1`} />
 			</div>
+
 			<Button
-				aria-braillelabel="Login with GitHub"
+				aria-label="Login with GitHub"
 				color="primary"
 				fullWidth
-				data-hover=""
-				className={`text-slate-200 tracking-wider bg-slate-950 hover:bg-slate-900 dark:bg-slate-50 dark:hover:bg-slate-200 dark:text-foreground-50`}
 				startContent={icons(IconType.GITHUB)}
 			>
 				Login with GitHub
 			</Button>
+
 			<div
 				className={`w-full h-auto mt-2 flex justify-center items-center text-xs gap-2`}
 			>

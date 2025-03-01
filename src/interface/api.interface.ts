@@ -1,3 +1,9 @@
+export enum ApiRoutes {
+	users = "/users",
+	login = "/users/login",
+	verify = '/users/verify?token='
+}
+
 export interface MetaData {
 	totalCount?: number;
 	totalPages?: number;

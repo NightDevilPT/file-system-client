@@ -11,14 +11,22 @@ import { useRouter } from "next/navigation";
 
 import icons, { IconType } from "@/utils/icons";
 import FSInput from "@/components/ui/FS-Input";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { signupValidationSchema } from "@/schemas/signup-form";
+import { signupUser } from "@/redux/signup/thunk";
 import { ApiStatusEnum } from "@/interface/interface";
+import { resetSignupState } from "@/redux/signup/slice";
+import { signupValidationSchema } from "@/schemas/signup-form";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 
 const SignupForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
+	// Get signup state from Redux
+	const { status, error, responseMessage } = useAppSelector(
+		(state) => state.signup
+	);
+
+	// Formik setup
 	const formik = useFormik({
 		initialValues: {
 			username: "",
@@ -26,10 +34,22 @@ const SignupForm = () => {
 			password: "",
 		},
 		validationSchema: signupValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {},
+		onSubmit: async (values, { setSubmitting }) => {
+			dispatch(signupUser(values));
+			setSubmitting(false);
+		},
 	});
 
-	useEffect(() => {}, [router, dispatch]);
+	// Handle signup status updates
+	useEffect(() => {
+		if (status === ApiStatusEnum.SUCCEEDED) {
+			toast.success(responseMessage || "Signup successful!");
+			dispatch(resetSignupState());
+			router.push("/auth/login"); // Redirect to login
+		} else if (status === ApiStatusEnum.FAILED && error) {
+			toast.error(error);
+		}
+	}, [status, error, responseMessage, router, dispatch]);
 
 	return (
 		<div
@@ -86,21 +106,30 @@ const SignupForm = () => {
 							: undefined
 					}
 				/>
-				{/* {error && <p className="text-red-500">{error}</p>} */}
-				{/* {responseMessage && <p className="text-green-500">{responseMessage}</p>} */}
+
+				{/* Display error message if signup fails */}
+				{error && <p className="text-red-500">{error}</p>}
+				{/* Display success message */}
+				{responseMessage && (
+					<p className="text-green-500">{responseMessage}</p>
+				)}
+
 				<Button
 					aria-label="Signup"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					// isDisabled={formik.isSubmitting || status === "loading"}
+					isDisabled={
+						formik.isSubmitting || status === ApiStatusEnum.LOADING
+					}
 				>
-					{/* {formik.isSubmitting || status === "loading"
+					{formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Signing up..."
-						: "Signup"} */}
+						: "Signup"}
 				</Button>
 			</form>
+
 			<div
 				className={`w-full flex justify-center items-center gap-2 my-3`}
 			>
@@ -110,6 +139,7 @@ const SignupForm = () => {
 				</span>
 				<Divider className={` flex-1`} />
 			</div>
+
 			<Button
 				aria-label="Signup with github"
 				color="primary"
@@ -118,8 +148,9 @@ const SignupForm = () => {
 				className={`text-slate-200 tracking-wider bg-slate-950 hover:bg-slate-900 dark:bg-slate-50 dark:hover:bg-slate-200 dark:text-foreground-50`}
 				startContent={icons(IconType.GITHUB)}
 			>
-				Signup with github
+				Signup with Github
 			</Button>
+
 			<div
 				className={`w-full h-auto mt-2 flex justify-center items-center text-xs gap-2`}
 			>

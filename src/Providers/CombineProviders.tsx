@@ -2,12 +2,12 @@
 
 import * as React from "react";
 
+import { ToastContainer } from "react-toastify";
+import { ReduxProvider } from "./ReduxProvider";
 import { Children } from "@/types/children.type";
+import { ThemeProvider } from "./ThemeProvider";
 import { NextUiProvider } from "./NextUiProvider";
 import { ContainerProvider } from "./ContainerProvider";
-import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from "./ThemeProvider";
-import { ReduxProvider } from "./ReduxProvider";
 
 export const CombineProvider = ({ children }: Children) => {
 	return (
