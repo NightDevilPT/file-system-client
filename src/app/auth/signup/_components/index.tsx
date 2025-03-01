@@ -26,12 +26,10 @@ const SignupForm = () => {
 			password: "",
 		},
 		validationSchema: signupValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {
-		},
+		onSubmit: async (values, { setSubmitting }) => {},
 	});
 
-	useEffect(() => {
-	}, [router, dispatch]);
+	useEffect(() => {}, [router, dispatch]);
 
 	return (
 		<div
@@ -91,15 +89,16 @@ const SignupForm = () => {
 				{/* {error && <p className="text-red-500">{error}</p>} */}
 				{/* {responseMessage && <p className="text-green-500">{responseMessage}</p>} */}
 				<Button
+					aria-label="Signup"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					isDisabled={formik.isSubmitting || status === "loading"}
+					// isDisabled={formik.isSubmitting || status === "loading"}
 				>
-					{formik.isSubmitting || status === "loading"
+					{/* {formik.isSubmitting || status === "loading"
 						? "Signing up..."
-						: "Signup"}
+						: "Signup"} */}
 				</Button>
 			</form>
 			<div
@@ -112,6 +111,7 @@ const SignupForm = () => {
 				<Divider className={` flex-1`} />
 			</div>
 			<Button
+				aria-label="Signup with github"
 				color="primary"
 				fullWidth
 				data-hover=""

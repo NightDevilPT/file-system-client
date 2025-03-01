@@ -55,17 +55,18 @@ const UpdatePasswordForm = () => {
 					}
 				/>
 				<Button
+					aria-label="Update Password"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					isDisabled={
-						formik.isSubmitting || status === ApiStatusEnum.LOADING
-					}
+					// isDisabled={
+					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
+					// }
 				>
-					{formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Updating..."
-						: "Update Password"}
+						: "Update Password"} */}
 				</Button>
 			</form>
 		</div>

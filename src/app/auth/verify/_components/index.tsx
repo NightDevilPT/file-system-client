@@ -27,7 +27,7 @@ const VerifyPage = () => {
 			</div>
 			<Divider className="mt-1" />
 			<div className="w-full h-auto my-5 flex justify-center items-center flex-col gap-2">
-				{status === ApiStatusEnum.LOADING && (
+				{/* {status === ApiStatusEnum.LOADING && (
 					<div className="bg-background flex justify-center items-center gap-3">
 						<span className="min-w-5 min-h-5 rounded-full animate-spin border-4 border-primary-200 border-t-primary"></span>
 						<span>Verifying...</span>
@@ -48,7 +48,7 @@ const VerifyPage = () => {
 						</div>
 						<span>Invalid Token</span>
 					</div>
-				)}
+				)} */}
 			</div>
 		</React.Fragment>
 	);

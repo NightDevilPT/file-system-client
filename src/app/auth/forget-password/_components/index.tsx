@@ -58,17 +58,18 @@ const ForgetPasswordForm = () => {
 					}
 				/>
 				<Button
+					aria-label="Forget Password"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					isDisabled={
-						formik.isSubmitting || status === ApiStatusEnum.LOADING
-					}
+					// isDisabled={
+					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
+					// }
 				>
-					{formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Sending..."
-						: "Forget Password"}
+						: "Forget Password"} */}
 				</Button>
 			</form>
 		</div>

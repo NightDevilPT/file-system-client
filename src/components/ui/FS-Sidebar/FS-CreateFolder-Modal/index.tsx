@@ -16,6 +16,7 @@ const FSCreateFolderModal = () => {
 	return (
 		<>
 			<Button
+				aria-label="Create Folder"
 				variant="solid"
 				color="primary"
 				fullWidth
@@ -53,13 +54,18 @@ const FSCreateFolderModal = () => {
 				footerContent={
 					<React.Fragment>
 						<Button
+							aria-label="Close"
 							variant="solid"
 							color="danger"
 							onPress={onClose}
 						>
 							Close
 						</Button>
-						<Button variant="solid" color="primary">
+						<Button
+							aria-label="Create"
+							variant="solid"
+							color="primary"
+						>
 							Create
 						</Button>
 					</React.Fragment>

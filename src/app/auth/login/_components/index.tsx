@@ -81,17 +81,18 @@ const LoginForm = () => {
 					</Link>
 				</div>
 				<Button
+					aria-label="Login"
 					type="submit"
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					isDisabled={
-						formik.isSubmitting || status === ApiStatusEnum.LOADING
-					}
+					// isDisabled={
+					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
+					// }
 				>
-					{formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Logging in..."
-						: "Log In"}
+						: "Log In"} */}
 				</Button>
 			</form>
 			<div
@@ -104,6 +105,7 @@ const LoginForm = () => {
 				<Divider className={` flex-1`} />
 			</div>
 			<Button
+				aria-braillelabel="Login with GitHub"
 				color="primary"
 				fullWidth
 				data-hover=""
