@@ -16,14 +16,17 @@ import { useRouter } from "next/navigation";
 
 const FSUsernav = () => {
 	const { theme, toggleTheme } = useTheme();
-	const router = useRouter()
-	const handleLogout=()=>{
-        router.push(`/auth/login`);
-	}
+	const router = useRouter();
+	const handleLogout = () => {
+		router.push(`/auth/login`);
+	};
 	return (
 		<Dropdown>
 			<DropdownTrigger>
-				<Button className="flex-1 flex justify-start items-center gap-2 bg-transparent h-auto p-2">
+				<Button
+					aria-label="User Profile"
+					className="flex-1 flex justify-start items-center gap-2 bg-transparent h-auto p-2"
+				>
 					<Avatar src={avtar.src} size="sm" />
 					<div className="grid grid-cols-1 gap-0 flex-1">
 						<span className={`truncate flex-1 text-start`}>
@@ -55,7 +58,11 @@ const FSUsernav = () => {
 				<DropdownItem
 					key="logout"
 					color="primary"
-					startContent={icons(theme===ThemeType.dark?IconType.LIGHT:IconType.DARK)}
+					startContent={icons(
+						theme === ThemeType.dark
+							? IconType.LIGHT
+							: IconType.DARK
+					)}
 					onClick={toggleTheme}
 				>
 					Appearance

@@ -19,6 +19,7 @@ const FSCreateFolderModal = () => {
 	return (
 		<>
 			<Button
+				aria-label="Create Folder"
 				variant="solid"
 				color="secondary"
 				fullWidth
@@ -51,19 +52,24 @@ const FSCreateFolderModal = () => {
 							icon={"file"}
 							onChange={handleFolderNameChange}
 						/>
-						<Input type='file' />
+						<Input type="file" />
 					</form>
 				}
 				footerContent={
 					<React.Fragment>
 						<Button
+							aria-label="Close"
 							variant="solid"
 							color="danger"
 							onPress={onClose}
 						>
 							Close
 						</Button>
-						<Button variant="solid" color="primary">
+						<Button
+							aria-label="Create Folder"
+							variant="solid"
+							color="primary"
+						>
 							Create
 						</Button>
 					</React.Fragment>

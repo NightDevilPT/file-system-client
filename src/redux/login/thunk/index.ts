@@ -1,33 +1,32 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiService, ApiError } from '@/services/api.service';
-import { LoginPayload, userResponseInterface } from '../interface';
-
-const apiService = new ApiService();
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { LoginPayload, LoginResponse } from "../interface";
+import { postRequest } from "@/services/api.service";
+import { ApiRoutes } from "@/interface/api.interface";
 
 export const loginUser = createAsyncThunk<
-  userResponseInterface,
-  LoginPayload,
-  { rejectValue: ApiError }
->(
-  'login/loginUser',
-  async (loginData: LoginPayload, thunkAPI) => {
-    try {
-      const response = await apiService.post<userResponseInterface>(
-        '/users/login',
-        loginData
-      );
+	LoginResponse, // Success Response Type
+	LoginPayload, // Argument Type
+	{ rejectValue: LoginResponse } // Rejected Response Type
+>("login/loginUser", async (loginData, thunkAPI) => {
+	try {
+		const response = await postRequest<LoginResponse>(
+			ApiRoutes.login,
+			loginData
+		);
 
-      if (response.data.message === 'Login successful') {
-        return response.data;
-      } else {
-        return thunkAPI.rejectWithValue({
-          message: 'Unexpected response from the server.',
-        } as ApiError);
-      }
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-        message: error.message || 'An error occurred during login.',
-      } as ApiError);
-    }
-  }
-);
+		// ✅ Successful login
+		if (response.status === "success") {
+			return response;
+		} else {
+			// ❌ Reject with API error response
+			return thunkAPI.rejectWithValue(response);
+		}
+	} catch (error: any) {
+		return thunkAPI.rejectWithValue({
+			status: "error",
+			statusCode: error.statusCode || 500,
+			message: error.message || "Login failed",
+			error: error.error || null,
+		} as LoginResponse);
+	}
+});

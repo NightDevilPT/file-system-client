@@ -1,33 +1,30 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiService, ApiError } from '@/services/api.service';
-import { ForgetPasswordResponse } from '../interface';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { postRequest } from "@/services/api.service";
+import { ApiRoutes } from "@/interface/api.interface";
+import { ForgotPasswordPayload, ForgotPasswordResponse } from "../interface";
 
-const apiService = new ApiService();
+export const sendForgotPasswordEmail = createAsyncThunk<
+	ForgotPasswordResponse, // Success Response Type
+	ForgotPasswordPayload, // Argument Type
+	{ rejectValue: ForgotPasswordResponse } // Rejected Response Type
+>("forgotPassword/sendForgotPasswordEmail", async (payload, thunkAPI) => {
+	try {
+		const response = await postRequest<ForgotPasswordResponse>(
+			`${ApiRoutes.users}/forgot-password`, // Adjust the endpoint as per your API
+			payload
+		);
 
-export const forgetPassword = createAsyncThunk<
-  ForgetPasswordResponse,
-  { email: string },
-  { rejectValue: ApiError }
->(
-  'forgetPassword/forgetPassword',
-  async (forgetData, thunkAPI) => {
-    try {
-      const response = await apiService.put<ForgetPasswordResponse>(
-        '/users/forget-password',
-        forgetData
-      );
-
-      if (response.data.message === 'Reset password email sent successfully') {
-        return response.data;
-      } else {
-        return thunkAPI.rejectWithValue({
-          message: 'Unexpected response from the server.',
-        } as ApiError);
-      }
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-        message: error.message || 'An error occurred.',
-      } as ApiError);
-    }
-  }
-);
+		if (response.status === "success") {
+			return response;
+		} else {
+			return thunkAPI.rejectWithValue(response);
+		}
+	} catch (error: any) {
+		return thunkAPI.rejectWithValue({
+			status: "error",
+			statusCode: error.statusCode || 500,
+			message: error.message || "Failed to send reset link",
+			error: error.error || null,
+		} as ForgotPasswordResponse);
+	}
+});

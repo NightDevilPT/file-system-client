@@ -1,30 +1,31 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiService, ApiError } from '@/services/api.service';
-import { VerifyResponseInterface } from '../interface';
-
-const apiService = new ApiService();
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { ApiRoutes } from "@/interface/api.interface";
+import { VerifyPayload, VerifyResponse } from "../interface";
+import { postRequest, putRequest } from "@/services/api.service";
 
 export const verifyUser = createAsyncThunk<
-  VerifyResponseInterface,
-  string,
-  { rejectValue: ApiError }
->(
-  'verify/verifyUser',
-  async (token, thunkAPI) => {
-    try {
-      const response = await apiService.put<VerifyResponseInterface>(`/users/verify?token=${token}`);
+	VerifyResponse, // Success Response Type
+	VerifyPayload, // Argument Type
+	{ rejectValue: VerifyResponse } // Rejected Response Type
+>("verify/verifyUser", async (verifyData, thunkAPI) => {
+	try {
+		const response = await putRequest<VerifyResponse>(
+			ApiRoutes.verify + verifyData.token // Adjust the endpoint according to your API
+		);
 
-      if (response.data.message === 'User verified successfully') {
-        return response.data;
-      } else {
-        return thunkAPI.rejectWithValue({
-          message: 'Unexpected response from the server.',
-        } as ApiError);
-      }
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue({
-        message: error.message || 'Verification failed.',
-      } as ApiError);
-    }
-  }
-);
+		// ✅ If response is successful
+		if (response.status === "success") {
+			return response;
+		} else {
+			// ❌ Reject with API error response
+			return thunkAPI.rejectWithValue(response);
+		}
+	} catch (error: any) {
+		return thunkAPI.rejectWithValue({
+			status: "error",
+			statusCode: error.statusCode || 500,
+			message: error.message || "Verification failed",
+			error: error.error || null,
+		} as VerifyResponse);
+	}
+});

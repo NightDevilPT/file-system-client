@@ -1,3 +1,4 @@
+import { MetaData } from "@/interface/api.interface";
 import { ApiStatusEnum } from "@/interface/interface";
 
 export interface SignupPayload {
@@ -9,11 +10,15 @@ export interface SignupPayload {
 export interface SignupState {
 	status: ApiStatusEnum;
 	error: string | null;
-	data?: SignupPayload | null;  // Optional: To store the signup data if needed
-	responseMessage?: string | null;  // Optional: To store the API response message if needed
-  }
-  
+	data?: any;
+	responseMessage?: string | null;
+}
 
-export interface userResponseInterface {
+export interface SignupResponse {
+	status: "success" | "error";
+	statusCode: number;
 	message: string;
+	data?: any;
+	error?: string | null;
+	meta?: MetaData;
 }

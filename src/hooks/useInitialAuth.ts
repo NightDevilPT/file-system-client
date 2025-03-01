@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { setJwtAndId } from "@/redux/login/slice";
 
 const useInitializeAuth = () => {
   const [loading, setLoading] = useState(true); // State to manage loading
@@ -14,7 +13,7 @@ const useInitializeAuth = () => {
 
     if (jwt && userId) {
       // If JWT exists, set it in Redux and allow access
-      dispatch(setJwtAndId({ jwt, id: userId }));
+      // dispatch(setJwtAndId({ jwt, id: userId }));
       setLoading(false); // Stop loading
     } else {
       // If JWT doesn't exist, redirect to login

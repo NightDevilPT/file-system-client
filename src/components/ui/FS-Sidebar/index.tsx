@@ -22,13 +22,13 @@ export enum ActiveButtonEnum {
 
 const FSSidebar = () => {
 	const router = useRouter();
-	const pathname = usePathname()
+	const pathname = usePathname();
 	const isFolderFilesRoute = /^\/folder-files(\/.*)?$/.test(pathname);
 
-    const handlerNavigateFunction = (event:any) => {
+	const handlerNavigateFunction = (event: any) => {
 		event.preventDefault();
-        router.push(`/${event.target.name}`);
-    };
+		router.push(`/${event.target.name}`);
+	};
 	return (
 		<div
 			className={`w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
@@ -46,8 +46,9 @@ const FSSidebar = () => {
 
 			<div className={`w-full h-auto grid grid-cols-1 gap-3 mt-8`}>
 				<Button
+					aria-label="Dashboard"
 					variant="light"
-					color={pathname==='/'?'primary':'default'}
+					color={pathname === "/" ? "primary" : "default"}
 					fullWidth
 					name=""
 					onClick={handlerNavigateFunction}
@@ -57,8 +58,9 @@ const FSSidebar = () => {
 					Dashboard
 				</Button>
 				<Button
+					aria-label="Files"
 					variant="light"
-					color={isFolderFilesRoute ? 'primary' : 'default'}
+					color={isFolderFilesRoute ? "primary" : "default"}
 					fullWidth
 					name="folder-files"
 					onClick={handlerNavigateFunction}
@@ -68,6 +70,7 @@ const FSSidebar = () => {
 					My Folder / File
 				</Button>
 				<Button
+					aria-label="Recent Activity"
 					variant="light"
 					color="default"
 					name="recent-activity"
@@ -79,6 +82,7 @@ const FSSidebar = () => {
 					Recent Activity
 				</Button>
 				<Button
+					aria-label="Favourites"
 					variant="light"
 					color="default"
 					name="favourites"
@@ -90,6 +94,7 @@ const FSSidebar = () => {
 					Favorite
 				</Button>
 				<Button
+					aria-label="Trash"
 					variant="light"
 					color="danger"
 					name="trash"

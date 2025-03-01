@@ -1,139 +1,120 @@
-import { env } from '@/config/env';
-import axios, { AxiosInstance, AxiosResponse, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 
-export interface ApiResponse<T = any> {
-    status: number;
-    message: string;
-    data: T;
-}
+import { env } from "@/config/env";
+import { ApiError, ApiResponse } from "@/interface/api.interface";
 
-export interface ApiError {
-    status: number;
-    message: string;
-    data?: any;
-}
+// **🔹 Create Axios Instance**
+const api: AxiosInstance = axios.create({
+	baseURL: env.BACKEND_URL,
+	withCredentials: true, // ✅ Ensure cookies are sent with requests
+	headers: {
+		"Content-Type": "application/json",
+	},
+	timeout: 10000, // ✅ Set request timeout
+});
 
-export class ApiService {
-    private api: AxiosInstance;
+// **🔹 API Response Interceptor: Handles Success & Errors**
+api.interceptors.response.use(
+	(response: AxiosResponse<ApiResponse<any>>) => {
+		return response; // ✅ Return full AxiosResponse object
+	},
+	async (error: AxiosError<ApiResponse | undefined>) => {
+		if (error.response) {
+			const statusCode = error.response.status;
 
-    constructor(tokenRetriever: () => string | null = () => localStorage.getItem('token')) {
-        this.api = axios.create({
-            baseURL: env.BACKEND_URL,
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            timeout: 10000, // Set a default timeout
-        });
+			// **🔹 Refresh Token Logic**
+			if (statusCode === 401) {
+				console.warn("Access Token expired, attempting refresh...");
+				try {
+					await refreshToken();
+					console.log("Token refreshed, retrying request...");
+					return api.request(error.config as any); // ✅ Retry failed request
+				} catch (refreshError) {
+					console.error(
+						"Refresh Token expired, user must log in again."
+					);
+					return Promise.reject<ApiError>({
+						status: "error",
+						statusCode: 401,
+						message: "Session expired. Please log in again.",
+					});
+				}
+			}
 
-        // Add request interceptor
-        this.api.interceptors.request.use(
-            config => {
-                const token = tokenRetriever();
-                if (token) {
-                    config.headers['Authorization'] = `Bearer ${token}`;
-                }
-                return config;
-            },
-            error => Promise.reject(error)
-        );
+			// **🔹 Return structured API error response**
+			return Promise.reject<ApiError>({
+				status: "error",
+				statusCode: statusCode,
+				message:
+					error.response.data?.message ||
+					"Unexpected server response",
+				error: error.response.data?.error || null,
+				meta: error.response.data?.meta || undefined,
+			});
+		}
 
-        // Add response interceptor
-        this.api.interceptors.response.use(
-            response => response,
-            error => {
-                const axiosError = error as AxiosError<{ message?: string }>;
-                if (axiosError.response) {
-                    return Promise.reject<ApiError>({
-                        status: axiosError.response.status,
-                        message: axiosError.response.data?.message || axiosError.message,
-                        data: axiosError.response.data,
-                    });
-                } else {
-                    return Promise.reject<ApiError>({
-                        status: 500,
-                        message: axiosError.message,
-                    });
-                }
-            }
-        );
-    }
+		// **🔹 Handle Network Errors**
+		return Promise.reject<ApiError>({
+			status: "error",
+			statusCode: 500,
+			message: error.message || "Network error",
+		});
+	}
+);
 
-    async get<T = any>(url: string, params: object = {}): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.get(url, { params });
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// TODO: Add more API helper functions as needed
+// **🔹 Token Refresh Function**
+export const refreshToken = async (): Promise<void> => {
+	try {
+		console.log("Refreshing access token...");
+		await api.post("/auth/refresh-token"); // ✅ Backend will set new tokens in cookies
+	} catch (error) {
+		throw new Error("Unable to refresh token.");
+	}
+};
 
-    async post<T = any>(url: string, data: any): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.post(url, data);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// **🔹 GET Request**
+export const getRequest = async <T = any>(
+	url: string,
+	params: object = {}
+): Promise<ApiResponse<T>> => {
+	const response = await api.get<ApiResponse<T>>(url, { params });
+	return response.data; // ✅ Extract & return API response data
+};
 
-    async put<T = any>(url: string, data?: any): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.put(url, data);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// **🔹 POST Request**
+export const postRequest = async <T = any>(
+	url: string,
+	data: any
+): Promise<ApiResponse<T>> => {
+	const response = await api.post<ApiResponse<T>>(url, data);
+	return response.data;
+};
 
-    async delete<T = any>(url: string): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.delete(url);
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// **🔹 PUT Request**
+export const putRequest = async <T = any>(
+	url: string,
+	data?: any
+): Promise<ApiResponse<T>> => {
+	const response = await api.put<ApiResponse<T>>(url, data);
+	return response.data;
+};
 
-    async upload<T = any>(url: string, formData: FormData): Promise<ApiResponse<T> | ApiError> {
-        try {
-            const response: AxiosResponse<T> = await this.api.post(url, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            return {
-                status: response.status,
-                message: 'Success',
-                data: response.data,
-            };
-        } catch (error) {
-            this.logError(error);  // Optionally log error
-            return error as ApiError;
-        }
-    }
+// **🔹 DELETE Request**
+export const deleteRequest = async <T = any>(
+	url: string
+): Promise<ApiResponse<T>> => {
+	const response = await api.delete<ApiResponse<T>>(url);
+	return response.data;
+};
 
-    private logError(error: any): void {
-        // Implement your logging logic here, such as sending the error to a logging service
-        console.error('API Error:', error);
-    }
-}
+// **🔹 File Upload Request**
+export const uploadFile = async <T = any>(
+	url: string,
+	formData: FormData
+): Promise<ApiResponse<T>> => {
+	const response = await api.post<ApiResponse<T>>(url, formData, {
+		headers: { "Content-Type": "multipart/form-data" },
+	});
+	return response.data;
+};
