@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
@@ -35,10 +35,10 @@ const VerifyPage = () => {
 	}, [params, dispatch]);
 
 	useEffect(() => {
-		if(status===ApiStatusEnum.SUCCEEDED){
+		if (status === ApiStatusEnum.SUCCEEDED) {
 			router.push("/auth/login");
 		}
-	},[status,responseMessage,error]);
+	}, [status, responseMessage, error, router]);
 
 	return (
 		<React.Fragment>
@@ -55,19 +55,13 @@ const VerifyPage = () => {
 				)}
 				{status === ApiStatusEnum.SUCCEEDED && (
 					<div className="bg-background flex justify-center items-center gap-3">
-						<div className="text-success">
-							{icons(IconType.SUCCESS)}
-						</div>
-						<span>
-							{responseMessage || "Verified successfully!"}
-						</span>
+						<div className="text-success">{icons(IconType.SUCCESS)}</div>
+						<span>{responseMessage || "Verified successfully!"}</span>
 					</div>
 				)}
 				{status === ApiStatusEnum.FAILED && (
 					<div className="bg-background flex justify-center items-center gap-3">
-						<div className="text-warning">
-							{icons(IconType.WARNING)}
-						</div>
+						<div className="text-warning">{icons(IconType.WARNING)}</div>
 						<span>{error || "Invalid Token"}</span>
 					</div>
 				)}
@@ -76,4 +70,11 @@ const VerifyPage = () => {
 	);
 };
 
-export default VerifyPage;
+// ✅ Wrap VerifyPage with Suspense
+const VerifyPageWithSuspense = () => (
+	<Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
+		<VerifyPage />
+	</Suspense>
+);
+
+export default VerifyPageWithSuspense;
