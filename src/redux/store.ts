@@ -5,6 +5,7 @@ import loginReducer from "@/redux/login/slice";
 import signupReducer from "@/redux/signup/slice";
 import verifyReducer from "@/redux/verify/slice";
 import forgetPasswordReducer from "@/redux/forget-password/slice";
+import updatePasswordReducer from "@/redux/update-password/slice";
 
 export const store = configureStore({
 	reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
 		login: loginReducer,
 		verify: verifyReducer,
 		forgetPassword: forgetPasswordReducer,
+		updatePassword: updatePasswordReducer,
 	},
 });
 

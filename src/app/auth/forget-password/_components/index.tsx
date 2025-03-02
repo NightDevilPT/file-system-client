@@ -1,29 +1,52 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Divider } from "@nextui-org/divider";
 
 import FSInput from "@/components/ui/FS-Input";
 import FSLogoFrame from "@/components/ui/FS-Logo";
-import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
-import { forgetPasswordValidationSchema } from "@/schemas/forget-password-form";
 import { ApiStatusEnum } from "@/interface/interface";
+import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
+import { sendForgotPasswordEmail } from "@/redux/forget-password/thunk";
+import { resetForgotPasswordState } from "@/redux/forget-password/slice";
+import { forgetPasswordValidationSchema } from "@/schemas/forget-password-form";
 
 const ForgetPasswordForm = () => {
 	const dispatch = useAppDispatch();
 	const router = useRouter();
 
+	// Get state from Redux store
+	const { status, responseMessage, error } = useAppSelector(
+		(state) => state.forgetPassword
+	);
+
+	// Handle form submission
 	const formik = useFormik({
 		initialValues: {
 			email: "",
 		},
 		validationSchema: forgetPasswordValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {},
+		onSubmit: async (values, { setSubmitting }) => {
+			dispatch(sendForgotPasswordEmail(values));
+			setSubmitting(false);
+		},
 	});
+
+	// Handle success and error messages
+	useEffect(() => {
+		if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
+			toast.success(responseMessage);
+			dispatch(resetForgotPasswordState());
+			router.push("/auth/login");
+		} else if (status === ApiStatusEnum.FAILED && error) {
+			toast.error(error);
+			dispatch(resetForgotPasswordState());
+		}
+	}, [status, responseMessage, error, dispatch]);
 
 	return (
 		<div
@@ -63,13 +86,13 @@ const ForgetPasswordForm = () => {
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					// isDisabled={
-					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
-					// }
+					isDisabled={
+						formik.isSubmitting || status === ApiStatusEnum.LOADING
+					}
 				>
-					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Sending..."
-						: "Forget Password"} */}
+						: "Forget Password"}
 				</Button>
 			</form>
 		</div>

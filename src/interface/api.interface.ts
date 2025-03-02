@@ -1,7 +1,9 @@
 export enum ApiRoutes {
 	users = "/users",
 	login = "/users/login",
-	verify = '/users/verify?token='
+	verify = '/users/verify?token=',
+	forgetPassword = '/users/forget-password',
+	updatePassword = '/users/update-password?token=',
 }
 
 export interface MetaData {

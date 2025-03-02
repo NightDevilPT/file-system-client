@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { postRequest } from "@/services/api.service";
+import { postRequest, putRequest } from "@/services/api.service";
 import { ApiRoutes } from "@/interface/api.interface";
 import { ForgotPasswordPayload, ForgotPasswordResponse } from "../interface";
 
@@ -9,8 +9,8 @@ export const sendForgotPasswordEmail = createAsyncThunk<
 	{ rejectValue: ForgotPasswordResponse } // Rejected Response Type
 >("forgotPassword/sendForgotPasswordEmail", async (payload, thunkAPI) => {
 	try {
-		const response = await postRequest<ForgotPasswordResponse>(
-			`${ApiRoutes.users}/forgot-password`, // Adjust the endpoint as per your API
+		const response = await putRequest<ForgotPasswordResponse>(
+			`${ApiRoutes.forgetPassword}`, // Adjust the endpoint as per your API
 			payload
 		);
 

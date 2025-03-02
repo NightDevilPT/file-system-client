@@ -12,6 +12,8 @@ import FSLogoFrame from "@/components/ui/FS-Logo";
 import { useAppDispatch, useAppSelector } from "@/hooks/redux.hook";
 import { updatePasswordValidationSchema } from "@/schemas/update-password-form";
 import { ApiStatusEnum } from "@/interface/interface";
+import { updatePassword } from "@/redux/update-password/thunk/intex";
+import { resetUpdatePasswordState } from "@/redux/update-password/slice";
 
 const UpdatePasswordForm = () => {
 	const dispatch = useAppDispatch();
@@ -19,13 +21,39 @@ const UpdatePasswordForm = () => {
 	const searchParams = useSearchParams();
 	const token = searchParams.get("token");
 
+	// Get state from Redux store
+	const { status, responseMessage, error } = useAppSelector(
+		(state) => state.updatePassword
+	);
+
+	// Handle form submission
 	const formik = useFormik({
 		initialValues: {
 			password: "",
 		},
 		validationSchema: updatePasswordValidationSchema,
-		onSubmit: async (values, { setSubmitting }) => {},
+		onSubmit: async (values, { setSubmitting }) => {
+			if (!token) {
+				toast.error("Invalid or missing token");
+				return;
+			}
+
+			dispatch(updatePassword({ password: values.password, token }));
+			setSubmitting(false);
+		},
 	});
+
+	// Handle success and error messages
+	useEffect(() => {
+		if (status === ApiStatusEnum.SUCCEEDED && responseMessage) {
+			toast.success(responseMessage);
+			dispatch(resetUpdatePasswordState());
+			router.push("/auth/login"); // Redirect to login page after password update
+		} else if (status === ApiStatusEnum.FAILED && error) {
+			toast.error(error);
+			dispatch(resetUpdatePasswordState());
+		}
+	}, [status, responseMessage, error, dispatch, router]);
 
 	return (
 		<div
@@ -60,13 +88,11 @@ const UpdatePasswordForm = () => {
 					className={`w-full`}
 					color="primary"
 					variant={"solid"}
-					// isDisabled={
-					// 	formik.isSubmitting || status === ApiStatusEnum.LOADING
-					// }
+					isDisabled={formik.isSubmitting || status === ApiStatusEnum.LOADING}
 				>
-					{/* {formik.isSubmitting || status === ApiStatusEnum.LOADING
+					{formik.isSubmitting || status === ApiStatusEnum.LOADING
 						? "Updating..."
-						: "Update Password"} */}
+						: "Update Password"}
 				</Button>
 			</form>
 		</div>
