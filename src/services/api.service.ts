@@ -15,7 +15,7 @@ const api: AxiosInstance = axios.create({
 
 // **🔹 API Response Interceptor: Handles Success & Errors**
 api.interceptors.response.use(
-	(response: AxiosResponse<ApiResponse<any>>) => {
+	(response: AxiosResponse<any>) => {
 		return response; // ✅ Return full AxiosResponse object
 	},
 	async (error: AxiosError<ApiResponse | undefined>) => {

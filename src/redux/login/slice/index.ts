@@ -20,6 +20,9 @@ const loginSlice = createSlice({
 			state.responseMessage = null;
 			state.data = null;
 		},
+		setLoginData: (state, action: PayloadAction<{id:string}>) => {
+			state.data = action.payload;
+		}
 	},
 	extraReducers: (builder) => {
 		builder
@@ -45,5 +48,5 @@ const loginSlice = createSlice({
 	},
 });
 
-export const { resetLoginState } = loginSlice.actions;
+export const { resetLoginState, setLoginData } = loginSlice.actions;
 export default loginSlice.reducer;

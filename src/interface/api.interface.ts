@@ -4,6 +4,11 @@ export enum ApiRoutes {
 	verify = '/users/verify?token=',
 	forgetPassword = '/users/forget-password',
 	updatePassword = '/users/update-password?token=',
+
+	folders = "/folder",
+	foldersPermission = "/folder/permission",
+
+	commonResource = "/common/resource",
 }
 
 export interface MetaData {

@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useEffect } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store";
-import { ApiStatusEnum } from "@/interface/interface";
-import FSLogoFrame from "@/components/ui/FS-Logo";
-import icons, { IconType } from "@/utils/icons";
 import { Divider } from "@nextui-org/divider";
-import { verifyUser } from "@/redux/verify/thunk";
-import { resetVerifyState } from "@/redux/verify/slice";
+import React, { useEffect, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams, useRouter } from "next/navigation";
 
-const VerifyPage = () => {
+import icons, { IconType } from "@/utils/icons";
+import { verifyUser } from "@/redux/verify/thunk";
+import FSLogoFrame from "@/components/ui/FS-Logo";
+import { ApiStatusEnum } from "@/interface/interface";
+import { resetVerifyState } from "@/redux/verify/slice";
+import { AppDispatch, RootState } from "@/redux/store";
+
+const VerifyContent = () => {
 	const router = useRouter();
 	const dispatch = useDispatch<AppDispatch>();
 	const params = useSearchParams();
@@ -35,10 +36,10 @@ const VerifyPage = () => {
 	}, [params, dispatch]);
 
 	useEffect(() => {
-		if(status===ApiStatusEnum.SUCCEEDED){
+		if (status === ApiStatusEnum.SUCCEEDED) {
 			router.push("/auth/login");
 		}
-	},[status,responseMessage,error]);
+	}, [status, responseMessage, error]);
 
 	return (
 		<React.Fragment>
@@ -73,6 +74,14 @@ const VerifyPage = () => {
 				)}
 			</div>
 		</React.Fragment>
+	);
+};
+
+const VerifyPage = () => {
+	return (
+		<Suspense fallback={<div className="text-center mt-5">Loading...</div>}>
+			<VerifyContent />
+		</Suspense>
 	);
 };
 

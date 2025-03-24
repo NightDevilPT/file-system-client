@@ -1,8 +1,10 @@
+// ✅ View Type Enum (For Grid/Table View)
 export enum FSViewEnum {
 	GRID = "GRID",
 	TABLE = "TABLE",
 }
 
+// ✅ File Type Enum
 export enum FileTypeEnum {
 	IMAGE = "IMAGE",
 	DOCUMENT = "DOCUMENT",
@@ -10,6 +12,7 @@ export enum FileTypeEnum {
 	OTHER = "OTHER",
 }
 
+// ✅ API Status Enum (For API Calls)
 export enum ApiStatusEnum {
 	IDLE = "idle",
 	LOADING = "loading",
@@ -17,14 +20,27 @@ export enum ApiStatusEnum {
 	FAILED = "failed",
 }
 
-export type FolderEnum = "FOLDER" | "FILE";
-export type PrivateEnum = "PUBLIC" | "PRIVATE";
+// ✅ Folder Type Enum (Replaces `FolderEnum` Type Alias)
+export enum FolderTypeEnum {
+	FOLDER = "FOLDER",
+	FILE = "FILE",
+}
 
+// ✅ Access Level Enum (Replaces `PrivateEnum` Type Alias)
+export enum AccessLevelEnum {
+	PUBLIC = "PUBLIC",
+	PRIVATE = "PRIVATE",
+	ONLY = "ONLY",
+}
+
+
+// ✅ Breadcrumb Interface
 export interface Breadcrumb {
 	name: string;
 	id: string;
 }
 
+// ✅ Grid & Table Props
 export interface FSGridTableProps {
 	data: FileFolder;
 }
@@ -33,12 +49,13 @@ export interface FSFileFolderProps {
 	data: FileFolder[];
 }
 
+// ✅ Folder Interface
 export interface Folder {
 	id: string;
 	name: string;
-	type: FolderEnum;
+	type: FolderTypeEnum; // ✅ Changed from type alias to Enum
 	isTrash: boolean;
-	isAccessable: PrivateEnum;
+	isAccessable: AccessLevelEnum; // ✅ Changed from type alias to Enum
 	userIds: string[];
 	isFavourite?: boolean;
 	shareToken: string | null;
@@ -49,16 +66,17 @@ export interface Folder {
 	updatedAt: Date;
 }
 
+// ✅ File Interface
 export interface File {
 	id: string;
 	name: string;
 	size: number;
 	data: string;
 	fileType: FileTypeEnum;
-	type: "FILE";
+	type: FolderTypeEnum.FILE; // ✅ Using Enum instead of hardcoded string
 	isTrash: boolean;
 	isFavourite?: boolean;
-	isAccessable: PrivateEnum;
+	isAccessable: AccessLevelEnum; // ✅ Changed from type alias to Enum
 	shareToken: string | null;
 	userIds: string[];
 	resourceId: string;
@@ -68,4 +86,5 @@ export interface File {
 	updatedAt: Date;
 }
 
+// ✅ FileFolder Type (Union of File & Folder)
 export type FileFolder = File | Folder;

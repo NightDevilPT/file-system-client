@@ -16,6 +16,7 @@ export const loginUser = createAsyncThunk<
 
 		// ✅ Successful login
 		if (response.status === "success") {
+			console.log("Login successful",response);
 			return response;
 		} else {
 			// ❌ Reject with API error response

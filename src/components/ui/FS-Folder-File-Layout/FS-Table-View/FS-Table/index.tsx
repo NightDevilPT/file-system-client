@@ -21,6 +21,7 @@ import folder from "../../../../../assets/folder.png";
 import { DateFormatEnum, formatDate } from "@/utils/date";
 import icons, { IconType } from "@/utils/icons";
 import FSFileFolderDropdown from "../../FS-File-Folder-Dropdown";
+import Link from "next/link";
 
 const columns = [
 	{ name: "FILE TYPE", uid: "file type" },
@@ -32,7 +33,8 @@ const columns = [
 export default function FSTable({ data }: FSFileFolderProps) {
 	const [isSaved, setIsSaved] = useState<boolean>(false);
 
-	const toggleSave = () => {
+	const toggleSave = (e:any) => {
+		e.stopPropagation(); // ✅ Prevents event bubbling
 		setIsSaved(!isSaved);
 	};
 
@@ -42,7 +44,7 @@ export default function FSTable({ data }: FSFileFolderProps) {
 				case "name":
 					return (
 						<div className={`w-auto h-auto text-sm font-rubik`}>
-							{items.name}
+							<Link href={`/folder-files/${items.id}`}>{items.name}</Link>
 						</div>
 					);
 				case "file type":
@@ -59,7 +61,7 @@ export default function FSTable({ data }: FSFileFolderProps) {
 				case "actions":
 					return (
 						<div className="relative flex justify-start items-center gap-5">
-							<Tooltip content="Details">
+							{/* <Tooltip content="Details"> */}
 								<button
 									className={`w-5 h-auto text-foreground ${
 										isSaved && "text-pink-500"
@@ -70,7 +72,7 @@ export default function FSTable({ data }: FSFileFolderProps) {
 										? icons(IconType.SAVED_BOOKMARK)
 										: icons(IconType.BOOKMARK)}
 								</button>
-							</Tooltip>
+							{/* </Tooltip> */}
 							<Tooltip content="Edit">
 								<FSFileFolderDropdown />
 							</Tooltip>
@@ -80,7 +82,7 @@ export default function FSTable({ data }: FSFileFolderProps) {
 					return;
 			}
 		},
-		[]
+		[isSaved, toggleSave]
 	);
 
 	const renderImage = (items: any) => {

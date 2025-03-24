@@ -1,15 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
-import FSLogoFrame from "../FS-Logo";
-import { Divider } from "@nextui-org/divider";
+import React, { useCallback, useMemo } from "react";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@nextui-org/button";
-import icons, { IconType } from "@/utils/icons";
-import FSUsernav from "../FS-Usernav";
+import { Divider } from "@nextui-org/divider";
+
+import FSLogoFrame from "../FS-Logo";
 import FSCreateFolderModal from "./FS-CreateFolder-Modal";
 import FSCreateFileModal from "./FS-CreateFile-Modal";
 import FSStorageInformation from "../FS-Storage";
-import { usePathname, useRouter } from "next/navigation";
+import icons, { IconType } from "@/utils/icons";
 
 export enum ActiveButtonEnum {
 	createFolder = "Create Folder",
@@ -17,96 +17,73 @@ export enum ActiveButtonEnum {
 	dashboard = "Dashboard",
 	files = "Files",
 	trash = "Trash",
-	favorite = "Favroite",
+	favorite = "Favorite",
+	recentActivity = "Recent Activity",
 }
 
-const FSSidebar = () => {
+/**
+ * Sidebar Navigation Component
+ */
+const FSSidebar: React.FC = () => {
 	const router = useRouter();
 	const pathname = usePathname();
-	const isFolderFilesRoute = /^\/folder-files(\/.*)?$/.test(pathname);
+	const params = useParams();
 
-	const handlerNavigateFunction = (event: any) => {
-		event.preventDefault();
-		router.push(`/${event.target.name}`);
-	};
+	const parentFolderId = params?.folderId as string || null;
+
+	// Memoized route check to prevent unnecessary re-renders
+	const isFolderFilesRoute = useMemo(() => /^\/folder-files(\/.*)?$/.test(pathname), [pathname]);
+
+	// Optimized navigation function using useCallback
+	const handlerNavigateFunction = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+		router.push(`/${event.currentTarget.name}`);
+	}, [router]);
+
+	// Navigation buttons configuration (avoids repetition)
+	const NAV_LINKS = useMemo(() => [
+		{ name: "", label: "Dashboard", icon: IconType.DASHBOARD, isActive: pathname === "/" },
+		{ name: "folder-files", label: "My Folder / File", icon: IconType.FOLDER, isActive: isFolderFilesRoute },
+		{ name: "recent-activity", label: "Recent Activity", icon: IconType.HISTORY, isActive: pathname === "/recent-activity" },
+		{ name: "favourites", label: "Favorite", icon: IconType.FAVORITE, isActive: pathname === "/favourites" },
+		{ name: "trash", label: "Trash", icon: IconType.TRASH, isActive: pathname === "/trash", color: "danger" },
+	], [pathname, isFolderFilesRoute]);
+
 	return (
-		<div
-			className={`w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col`}
-		>
-			<div
-				className={`w-full h-auto pt-5 pb-2 flex justify-start items-center`}
-			>
+		<div className="w-64 h-full bg-background shadow-xl dark:bg-default-50 px-5 relative flex justify-start items-start flex-col">
+			{/* Logo Section */}
+			<div className="w-full h-auto pt-5 pb-2 flex justify-start items-center">
 				<FSLogoFrame />
 			</div>
+
 			<Divider className="mb-5" />
-			<div className={`w-full h-auto grid grid-cols-1 gap-3`}>
-				<FSCreateFolderModal />
+
+			{/* Create Folder & File Buttons */}
+			<div className="w-full h-auto grid grid-cols-1 gap-3">
+				<FSCreateFolderModal parentFolderId={parentFolderId} />
 				<FSCreateFileModal />
 			</div>
 
-			<div className={`w-full h-auto grid grid-cols-1 gap-3 mt-8`}>
-				<Button
-					aria-label="Dashboard"
-					variant="light"
-					color={pathname === "/" ? "primary" : "default"}
-					fullWidth
-					name=""
-					onClick={handlerNavigateFunction}
-					startContent={icons(IconType.DASHBOARD)}
-					className={`flex justify-start items-center`}
-				>
-					Dashboard
-				</Button>
-				<Button
-					aria-label="Files"
-					variant="light"
-					color={isFolderFilesRoute ? "primary" : "default"}
-					fullWidth
-					name="folder-files"
-					onClick={handlerNavigateFunction}
-					startContent={icons(IconType.FOLDER)}
-					className={`flex justify-start items-center`}
-				>
-					My Folder / File
-				</Button>
-				<Button
-					aria-label="Recent Activity"
-					variant="light"
-					color="default"
-					name="recent-activity"
-					fullWidth
-					startContent={icons(IconType.HISTORY)}
-					className={`flex justify-start items-center`}
-					onClick={handlerNavigateFunction}
-				>
-					Recent Activity
-				</Button>
-				<Button
-					aria-label="Favourites"
-					variant="light"
-					color="default"
-					name="favourites"
-					onClick={handlerNavigateFunction}
-					fullWidth
-					startContent={icons(IconType.FAVORITE)}
-					className={`flex justify-start items-center`}
-				>
-					Favorite
-				</Button>
-				<Button
-					aria-label="Trash"
-					variant="light"
-					color="danger"
-					name="trash"
-					onClick={handlerNavigateFunction}
-					fullWidth
-					startContent={icons(IconType.TRASH)}
-					className={`flex justify-start items-center`}
-				>
-					Trash
-				</Button>
+			{/* Navigation Buttons */}
+			<div className="w-full h-auto grid grid-cols-1 gap-3 mt-8">
+				{NAV_LINKS.map(({ name, label, icon, isActive, color }) => (
+					<Button
+						key={name}
+						aria-label={label}
+						variant="light"
+						color={isActive ? "primary" : color as any || "default"}
+						fullWidth
+						name={name}
+						onClick={handlerNavigateFunction}
+						startContent={icons(icon)}
+						className="flex justify-start items-center"
+					>
+						{label}
+					</Button>
+				))}
 			</div>
-			<div className={`w-full absolute bottom-5 left-0 px-5`}>
+
+			{/* Storage Information */}
+			<div className="w-full absolute bottom-5 left-0 px-5">
 				<FSStorageInformation />
 			</div>
 		</div>

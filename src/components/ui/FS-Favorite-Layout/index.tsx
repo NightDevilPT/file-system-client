@@ -3,8 +3,6 @@
 import { Divider } from "@nextui-org/divider";
 import React, { useState, useEffect } from "react";
 
-import icons, { IconType } from "@/utils/icons";
-import generateDummyData from "@/utils/get-dummy";
 import { FileFolder, FSViewEnum } from "@/interface/interface";
 import { FSFolderFileLayoutProps } from "../FS-Folder-File-Layout";
 import FSGridCard from "../FS-Folder-File-Layout/FS-Grid-View/FS-Grid-Card";
@@ -26,24 +24,24 @@ const FSFavouriteLayout: React.FC<FSFolderFileLayoutProps> = ({
 
 	useEffect(() => {
 		setLoading(true);
-		const fetchedData = generateDummyData(8);
-		setData(fetchedData);
+		// const fetchedData = generateDummyData(8);
+		// setData(fetchedData);
 		let folders: JSX.Element[] = [];
 		let files: JSX.Element[] = [];
 
-		fetchedData.forEach((item: FileFolder) => {
-			const element = (
-				<div className="w-[250px] min-w-[250px]" key={item.id}>
-					<FSGridCard data={{ ...item, isFavourite: true }} />
-				</div>
-			);
+		// fetchedData.forEach((item: FileFolder) => {
+		// 	const element = (
+		// 		<div className="w-[250px] min-w-[250px]" key={item.id}>
+		// 			<FSGridCard data={{ ...item, isFavourite: true }} />
+		// 		</div>
+		// 	);
 
-			if (item.type === "FOLDER") {
-				folders.push(element);
-			} else {
-				files.push(element);
-			}
-		});
+		// 	if (item.type === "FOLDER") {
+		// 		folders.push(element);
+		// 	} else {
+		// 		files.push(element);
+		// 	}
+		// });
 
 		setFolderFile({ folders, files });
 		setLoading(false);

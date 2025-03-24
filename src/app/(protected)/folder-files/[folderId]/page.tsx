@@ -1,9 +1,21 @@
-import FSFolderFileLayout from "@/components/ui/FS-Folder-File-Layout";
+"use client";
 
-export default function Home() {
-  return (
-    <div className={`font-rubik flex-1 w-full h-[90vh] overflow-y-auto`}>
-      <FSFolderFileLayout title="Folders & Files" />
-    </div>
-  );
+import FSFolderFileLayout from "@/components/ui/FS-Folder-File-Layout";
+import useInitializeAuth from "@/hooks/useInitialAuth";
+
+interface HomeProps {
+	params: { folderId: string };
+}
+
+export default function Home({ params }: HomeProps) {
+	const { loading } = useInitializeAuth();
+	if (loading) return null;
+	return (
+		<div className="font-rubik flex-1 w-full h-[90vh] overflow-y-auto">
+			<FSFolderFileLayout
+				title="Folders & Files"
+				parentFolderId={params.folderId}
+			/>
+		</div>
+	);
 }

@@ -1,5 +1,7 @@
-import icons, { IconType } from "@/utils/icons";
+import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import icons, { IconType } from "@/utils/icons";
 import { DateFormatEnum, formatDate } from "@/utils/date";
 import FSFileFolderDropdown from "../../FS-File-Folder-Dropdown";
 import { FileTypeEnum, File, FSGridTableProps } from "@/interface/interface";
@@ -9,11 +11,12 @@ import image from "../../../../../assets/photo.png";
 import other from "../../../../../assets/other.png";
 import video from "../../../../../assets/video.png";
 import folder from "../../../../../assets/folder.png";
-import { useRouter } from "next/navigation";
 
-const FSGridCard: React.FC<FSGridTableProps> = ({ data }) => {
+const FSGridCard= ({data}:FSGridTableProps) => {
 	const [isSaved, setIsSaved] = useState<boolean>(data.isFavourite || false);
 	const router = useRouter();
+
+	console.log(data, "Data");
 
 	const toggleSave = () => {
 		setIsSaved(!isSaved);
@@ -47,15 +50,9 @@ const FSGridCard: React.FC<FSGridTableProps> = ({ data }) => {
 		return <img src={src} alt="File-Folder" className={style} />;
 	};
 
-	const navigateToFolder = () => {
-		if (data.type === "FOLDER") {
-			router.push(`/folder-files/${data.id}`);
-		}
-	};
-
 	return (
 		<div className="w-full h-auto p-2 border border-divider rounded-md hover:shadow-lg transition-all duration-300 space-y-3">
-			<div className="w-full h-auto relative" onClick={navigateToFolder}>
+			<div className="w-full h-auto relative" >
 				<div className="w-full h-auto py-5 flex justify-center items-center bg-foreground-100 rounded">
 					{renderImage()}
 				</div>
@@ -72,11 +69,11 @@ const FSGridCard: React.FC<FSGridTableProps> = ({ data }) => {
 			</div>
 			<div className="w-full h-auto flex justify-start items-center gap-3">
 				<div className="flex-1 grid grid-cols-1">
-					<h1 className="text-sm font-sans font-medium text-foreground">
+					<Link href={`/folder-files/${data.id}`} className="text-sm font-sans font-medium text-foreground">
 						{data.name}
-					</h1>
+					</Link>
 					<span className="text-xs text-foreground-500">
-						{formatDate(data.createdAt, DateFormatEnum.DD_MM_YYYY)}
+						{formatDate(new Date(data.createdAt), DateFormatEnum.DD_MM_YYYY)}
 					</span>
 				</div>
 				<FSFileFolderDropdown />

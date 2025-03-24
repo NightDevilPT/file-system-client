@@ -3,37 +3,44 @@
 import { Divider } from "@nextui-org/divider";
 import { Pagination } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store"; // Import Redux types
+import { fetchResources } from "@/redux/folders/thunk"; // Import the thunk
 
 import icons, { IconType } from "@/utils/icons";
 import FSGridView from "./FS-Grid-View";
 import FSTableView from "./FS-Table-View";
-import generateDummyData from "@/utils/get-dummy";
 import FileFolderLoader from "@/common/FileFolderLoader";
-import { FileFolder, FSViewEnum } from "@/interface/interface";
-import { useParams } from "next/navigation";
+import { ApiStatusEnum, FSViewEnum } from "@/interface/interface";
 
 export interface FSFolderFileLayoutProps {
 	title: string;
 	showLayoutChange?: boolean;
-	defaultView?:FSViewEnum
+	defaultView?: FSViewEnum;
+	parentFolderId?: string;
 }
 
 const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 	title,
 	showLayoutChange = true,
-	defaultView=FSViewEnum.GRID
+	defaultView = FSViewEnum.GRID,
+	parentFolderId,
 }) => {
+	const dispatch = useDispatch<AppDispatch>();
 	const [view, setView] = useState<FSViewEnum>(defaultView);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [data, setData] = useState<FileFolder[]>([]);
-	const params = useParams();
+
+	// Select folders & loading state from Redux
+	const { folders, status } = useSelector(
+		(state: RootState) => state.folders
+	);
+	const { data } = useSelector((state: RootState) => state.login);
 
 	useEffect(() => {
-		setLoading(true);
-		const fetchedData = generateDummyData(20);
-		setData(fetchedData);
-		setLoading(false);
-	}, []);
+		if (parentFolderId || data.id) {
+			dispatch(fetchResources({ resourceId: parentFolderId || data.id }));
+		}
+		console.log(parentFolderId, data, "Fetching resources");
+	}, [dispatch, parentFolderId]);
 
 	const toggleView = (selectedView: FSViewEnum) => {
 		setView(selectedView);
@@ -70,12 +77,12 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 				)}
 			</div>
 			<Divider className="mb-3" />
-			{loading ? (
+			{status === ApiStatusEnum.LOADING ? (
 				<FileFolderLoader />
 			) : view === FSViewEnum.GRID ? (
-				<FSGridView data={data} />
+				<FSGridView data={folders as any} />
 			) : (
-				<FSTableView data={data} />
+				<FSTableView data={[] as any} />
 			)}
 			<div className="w-full h-auto flex justify-end items-center mt-3">
 				<Pagination isCompact showControls total={10} initialPage={1} />

@@ -11,7 +11,6 @@ import { Divider } from "@nextui-org/divider";
 import icons, { IconType } from "@/utils/icons";
 import { loginUser } from "@/redux/login/thunk";
 import FSInput from "@/components/ui/FS-Input";
-import { resetLoginState } from "@/redux/login/slice";
 import FSLogoFrame from "@/components/ui/FS-Logo";
 import { ApiStatusEnum } from "@/interface/interface";
 import { loginValidationSchema } from "@/schemas/login-form";
@@ -22,7 +21,7 @@ const LoginForm = () => {
 	const router = useRouter();
 
 	// Get login state from Redux
-	const { status, error, responseMessage } = useAppSelector(
+	const { status, error, responseMessage, data } = useAppSelector(
 		(state) => state.login
 	);
 
@@ -42,6 +41,7 @@ const LoginForm = () => {
 	// Handle login status updates
 	useEffect(() => {
 		if (status === ApiStatusEnum.SUCCEEDED) {
+			window.localStorage.setItem("user", data.id);
 			toast.success(responseMessage || "Login successful!");
 			// dispatch(resetLoginState());
 			router.push("/"); // Redirect to dashboard
@@ -49,6 +49,13 @@ const LoginForm = () => {
 			toast.error(error);
 		}
 	}, [status, error, responseMessage, router, dispatch]);
+
+	// Safe localStorage access
+	useEffect(() => {
+		if (typeof window !== "undefined") {
+			window.localStorage.removeItem("user");
+		}
+	}, []);
 
 	return (
 		<div
