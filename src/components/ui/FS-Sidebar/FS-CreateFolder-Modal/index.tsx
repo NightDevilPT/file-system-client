@@ -21,8 +21,6 @@ const FSCreateFolderModal = ({
 	const [folderName, setFolderName] = useState<string>("");
 	const { folders, status } = useSelector((state: RootState) => state.folders); // Select folder state
 
-	console.log(parentFolderId, "Parent Folder ID");
-
 	// Handler for input change
 	const handleFolderNameChange = (event: any) => {
 		setFolderName(event.target.value);

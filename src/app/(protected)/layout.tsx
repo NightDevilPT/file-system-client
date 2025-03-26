@@ -17,6 +17,8 @@ const ProtectedLayout = async ({ children }: { children: ReactNode }) => {
 		id: string;
 	};
 
+	console.log("Token Value:", tokenValue);
+
 	if (!tokenValue?.id) {
 		redirect("/auth/login");
 	}

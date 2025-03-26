@@ -82,7 +82,7 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 			) : view === FSViewEnum.GRID ? (
 				<FSGridView data={folders as any} />
 			) : (
-				<FSTableView data={[] as any} />
+				<FSTableView data={folders as any} />
 			)}
 			<div className="w-full h-auto flex justify-end items-center mt-3">
 				<Pagination isCompact showControls total={10} initialPage={1} />

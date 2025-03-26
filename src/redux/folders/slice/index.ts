@@ -102,8 +102,6 @@ const folderSlice = createSlice({
 					state.status = ApiStatusEnum.SUCCEEDED;
 					state.responseMessage = "Fetched folders successfully";
 
-					console.log(action.payload,'XOOXOXOXO');
-
 					// ✅ Ensure folders are set correctly
 					state.folders = action.payload.folders ?? [];
 				}

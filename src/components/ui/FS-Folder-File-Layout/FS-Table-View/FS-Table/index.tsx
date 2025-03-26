@@ -52,10 +52,7 @@ export default function FSTable({ data }: FSFileFolderProps) {
 				case "created at":
 					return (
 						<div className={`w-auto h-auto text-sm font-rubik`}>
-							{formatDate(
-								items.createdAt,
-								DateFormatEnum.DD_MM_YYYY
-							)}
+							{formatDate(new Date(items.createdAt), DateFormatEnum.DD_MM_YYYY)}
 						</div>
 					);
 				case "actions":
