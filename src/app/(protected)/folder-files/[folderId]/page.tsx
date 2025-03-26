@@ -8,8 +8,6 @@ interface HomeProps {
 }
 
 export default function Home({ params }: HomeProps) {
-	const { loading } = useInitializeAuth();
-	if (loading) return null;
 	return (
 		<div className="font-rubik flex-1 w-full h-[90vh] overflow-y-auto">
 			<FSFolderFileLayout

@@ -19,7 +19,7 @@ const useInitializeAuth = () => {
       // If JWT doesn't exist, redirect to login
       router.replace("/auth/login");
     }
-  }, [dispatch, router]);
+  }, []);
 
   return { loading };
 };
