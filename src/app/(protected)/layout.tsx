@@ -7,21 +7,21 @@ import React, { ReactNode } from "react";
 const ProtectedLayout = async ({ children }: { children: ReactNode }) => {
 	const cookieStore = await cookies();
 	const accessToken = cookieStore.get("accessToken")?.value;
-	const refreshToken = cookieStore.get("refreshToken")?.value;
+	// const refreshToken = cookieStore.get("refreshToken")?.value;
 
-	if (!accessToken ) {
-		redirect("/auth/login");
-	}
+	// if (!accessToken ) {
+	// 	redirect("/auth/login");
+	// }
 
-	const tokenValue = jwt.verify(accessToken, env.JWT_SECRET as string) as {
-		id: string;
-	};
+	// const tokenValue = jwt.verify(accessToken, env.JWT_SECRET as string) as {
+	// 	id: string;
+	// };
 
-	console.log("Token Value:", tokenValue);
+	// console.log("Token Value:", tokenValue);
 
-	if (!tokenValue?.id) {
-		redirect("/auth/login");
-	}
+	// if (!tokenValue?.id) {
+	// 	redirect("/auth/login");
+	// }
 	return <>{children}</>;
 };
 
