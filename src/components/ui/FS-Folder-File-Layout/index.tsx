@@ -4,12 +4,11 @@ import { Divider } from "@nextui-org/divider";
 import { Pagination } from "@nextui-org/react";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/redux/store"; // Import Redux types
-import { fetchResources } from "@/redux/folders/thunk"; // Import the thunk
 
-import icons, { IconType } from "@/utils/icons";
 import FSGridView from "./FS-Grid-View";
 import FSTableView from "./FS-Table-View";
+import icons, { IconType } from "@/utils/icons";
+import { AppDispatch, RootState } from "@/redux/store";
 import FileFolderLoader from "@/common/FileFolderLoader";
 import { ApiStatusEnum, FSViewEnum } from "@/interface/interface";
 
@@ -28,18 +27,9 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 }) => {
 	const dispatch = useDispatch<AppDispatch>();
 	const [view, setView] = useState<FSViewEnum>(defaultView);
-
-	// Select folders & loading state from Redux
-	const { folders, status } = useSelector(
-		(state: RootState) => state.folders
-	);
 	const { data } = useSelector((state: RootState) => state.login);
 
 	useEffect(() => {
-		if (parentFolderId || data.id) {
-			dispatch(fetchResources({ resourceId: parentFolderId || data.id }));
-		}
-		console.log(parentFolderId, data, "Fetching resources");
 	}, [dispatch, parentFolderId]);
 
 	const toggleView = (selectedView: FSViewEnum) => {
@@ -80,9 +70,9 @@ const FSFolderFileLayout: React.FC<FSFolderFileLayoutProps> = ({
 			{status === ApiStatusEnum.LOADING ? (
 				<FileFolderLoader />
 			) : view === FSViewEnum.GRID ? (
-				<FSGridView data={folders as any} />
+				<FSGridView data={[] as any} />
 			) : (
-				<FSTableView data={folders as any} />
+				<FSTableView data={[] as any} />
 			)}
 			<div className="w-full h-auto flex justify-end items-center mt-3">
 				<Pagination isCompact showControls total={10} initialPage={1} />
